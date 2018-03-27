@@ -9,7 +9,7 @@ import java.nio.charset.Charset
  * Date: 27/3/18.
  */
 
-class ResponseBody(private val contentStream: InputStream, val encoding: String, val mediaType: String) {
+class ResponseBody(val contentStream: InputStream, val encoding: String, val mediaType: String) {
 
     val contentString: String
         @Throws(IOException::class)

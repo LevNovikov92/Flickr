@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 android androidConfiguration
 
 dependencies {
     implementation project(":feature-image-search")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
 
 dependencies {
@@ -19,4 +21,7 @@ dependencies {
     testImplementation testLibs.mockito
     testImplementation testLibs.mockito_inline
     testImplementation testLibs.mockitoKotlin
+}
+repositories {
+    mavenCentral()
 }
