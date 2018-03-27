@@ -1,10 +1,6 @@
 package com.levnovikov.core_network;
 
-import com.levnovikov.core_network.composers.ImageLoaderThreadComposer;
-import com.levnovikov.core_network.composers.NetworkThreadComposer;
 import com.levnovikov.core_network.transformers.AuthTransformer;
-
-import javax.inject.Inject;
 
 /**
  * Author: lev.novikov
@@ -15,14 +11,13 @@ public class HttpClientFactory {
 
     private final AuthTransformer authTransformer;
 
-    @Inject
     HttpClientFactory(AuthTransformer authTransformer) {
         this.authTransformer = authTransformer;
     }
 
     public HttpClient buildNetworkClient() {
         return new HttpClientImpl.Builder()
-                .threadComposer(new NetworkThreadComposer())
+//                .threadComposer(new NetworkThreadComposer()) TODO solve
                 .callExecutor(new UrlConnectionCallExecutor())
                 .addTransformer(authTransformer)
                 .build();
@@ -30,7 +25,7 @@ public class HttpClientFactory {
 
     public HttpClient buildImageLoaderClient() {
         return new HttpClientImpl.Builder()
-                .threadComposer(new ImageLoaderThreadComposer())
+//                .threadComposer(new ImageLoaderThreadComposer()) TODO solve
                 .callExecutor(new UrlConnectionCallExecutor())
                 .build();
     }

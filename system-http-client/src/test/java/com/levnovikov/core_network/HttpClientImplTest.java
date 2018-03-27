@@ -13,8 +13,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.reactivex.observers.TestObserver;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -32,7 +30,6 @@ public class HttpClientImplTest {
     @Test
     public void makeFlickrCall() throws Exception {
         HttpClient client = new HttpClientImpl.Builder()
-                .threadComposer(upstream -> upstream)
                 .build();
         Map<String, String> params = new HashMap<>();
         params.put("method", "flickr.photos.search");
@@ -46,20 +43,16 @@ public class HttpClientImplTest {
                 .setMethod(Request.Method.GET)
                 .setPathParams(params)
                 .build();
-        TestObserver observer = client.makeCall(request).test();
+        Response response = client.makeCall(request);
 
-        observer.assertValueCount(1);
-        Response response = (Response) observer.values().get(0);
         assertEquals(200, response.getCode());
 
         System.out.println(response.getBody().getContentString());
         printDivider();
 
         request = new Request.Builder().setUrl(flickrRequestUrl + "/wrong_path").build();
-        observer = client.makeCall(request).test();
+        response = client.makeCall(request);
 
-        observer.assertValueCount(1);
-        response = (Response) observer.values().get(0);
         assertEquals(404, response.getCode());
         System.out.println(response.getBody().getContentString());
     }
@@ -89,7 +82,6 @@ public class HttpClientImplTest {
         };
 
         HttpClient client = new HttpClientImpl.Builder()
-                .threadComposer(upstream -> upstream)
                 .addTransformer(contentTransformer)
                 .addTransformer(responseCodeTransformer)
                 .build();
@@ -98,15 +90,11 @@ public class HttpClientImplTest {
                 .setMethod(Request.Method.GET)
                 .setUrl(baseUrl + reposPath)
                 .build();
-        TestObserver observer = client.makeCall(request).test();
-        observer.assertComplete();
-        observer.assertValueCount(1);
-        Response response = (Response) observer.values().get(0);
+        Response response = client.makeCall(request);
 
         Assert.assertEquals(501, response.getCode());
 
         client = new HttpClientImpl.Builder()
-                .threadComposer(upstream -> upstream)
                 .addTransformer(contentTransformer)
                 .addTransformer(responseCodeTransformer)
                 .addTransformer((RequestTransformer) r -> {
@@ -121,11 +109,7 @@ public class HttpClientImplTest {
                 .setMethod(Request.Method.GET)
                 .setUrl(baseUrl + reposPath)
                 .build();
-        observer = client.makeCall(request).test();
-        observer.assertComplete();
-        observer.assertValueCount(1);
-        response = (Response) observer.values().get(0);
-
+        response = client.makeCall(request);
         Assert.assertEquals(500, response.getCode());
     }
 

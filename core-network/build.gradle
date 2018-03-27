@@ -1,4 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android androidConfiguration
 
 dependencies {
@@ -6,18 +10,9 @@ dependencies {
 }
 
 dependencies {
-    implementation libs.rxJava
-    implementation libs.rxAndroid
-    implementation libs.dagger
+    implementation libs.kotlin
 }
 
-dependencies {
-    implementation libs.gson
-}
-
-dependencies {
-    annotationProcessor libs.daggerCompiler
-}
 
 dependencies {
     testImplementation testLibs.jUnit
