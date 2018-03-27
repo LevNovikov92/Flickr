@@ -3,7 +3,7 @@ android androidConfiguration
 
 dependencies {
     implementation project(":system-image-loader")
-    implementation project(":system-network")
+    implementation project(':system-http-client')
 }
 
 dependencies {
@@ -24,7 +24,4 @@ dependencies {
     testImplementation testLibs.mockito
     testImplementation testLibs.mockito_inline
     testImplementation testLibs.mockitoKotlin
-}
-dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:+'
 }

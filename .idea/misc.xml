@@ -33,6 +33,7 @@
   <component name="SuppressABINotification">
     <option name="modulesWithSuppressedNotConfigured">
       <set>
+        <option value="core-network" />
         <option value="feature-image-search" />
       </set>
     </option>

@@ -5,16 +5,10 @@ import android.os.Bundle;
 
 import com.levnovikov.core_network.HttpClient;
 import com.levnovikov.core_network.HttpClientImpl;
-import com.levnovikov.core_network.StandardThreadComposer;
 import com.levnovikov.core_network.UrlConnectionCallExecutor;
-import com.levnovikov.core_network.response.Response;
 import com.levnovikov.system_image_loader.ImageLoader;
 import com.levnovikov.system_image_loader.ImageLoaderImpl;
 
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.SingleSource;
-import io.reactivex.SingleTransformer;
 import io.reactivex.schedulers.Schedulers;
 
 public class SearchActivity extends AppCompatActivity {

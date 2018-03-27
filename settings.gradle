@@ -1,7 +1,7 @@
 /**
  * app-level
  */
-include ':app', ':system-image-loader'
+include ':app'
 
 /**
  * feature-level
@@ -11,4 +11,9 @@ include ':feature-image-search'
 /**
  * core-level
  */
-include ':system-network'
+include ':core-network'
+
+/**
+ * system-level
+ */
+include ':system-image-loader', ':system-http-client'
