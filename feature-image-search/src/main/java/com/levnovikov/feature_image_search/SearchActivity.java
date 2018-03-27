@@ -1,8 +1,8 @@
 package com.levnovikov.feature_image_search;
 
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.levnovikov.core_network.HttpClient;
@@ -13,9 +13,6 @@ import com.levnovikov.system_image_loader.ImageLoaderImpl;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import io.reactivex.schedulers.Schedulers;
 
 public class SearchActivity extends AppCompatActivity {
 
