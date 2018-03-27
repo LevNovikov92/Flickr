@@ -60,7 +60,7 @@ public class HttpClientImpl implements HttpClient {
         return response;
     }
 
-    static class Builder {
+    public static class Builder {
         private final HttpClientImpl client = new HttpClientImpl();
 
         public Builder() {
@@ -68,17 +68,17 @@ public class HttpClientImpl implements HttpClient {
             client.threadComposer = new StandardThreadComposer();
         }
 
-        Builder threadComposer(SingleTransformer<Response, Response> threadComposer) {
+        public Builder threadComposer(SingleTransformer<Response, Response> threadComposer) {
             client.threadComposer = threadComposer;
             return this;
         }
 
-        Builder callExecutor(CallExecutor callExecutor) {
+        public Builder callExecutor(CallExecutor callExecutor) {
             client.callExecutor = callExecutor;
             return this;
         }
 
-        HttpClient build() {
+        public HttpClient build() {
             return client;
         }
     }
