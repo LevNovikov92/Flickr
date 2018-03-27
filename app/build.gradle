@@ -1,0 +1,22 @@
+apply plugin: 'com.android.application'
+android androidConfiguration
+
+dependencies {
+    implementation project(":feature-image-search")
+}
+
+dependencies {
+    implementation libs.appcompatV7
+    implementation libs.dagger
+}
+
+dependencies {
+    annotationProcessor libs.daggerCompiler
+}
+
+dependencies {
+    testImplementation testLibs.jUnit
+    testImplementation testLibs.mockito
+    testImplementation testLibs.mockito_inline
+    testImplementation testLibs.mockitoKotlin
+}

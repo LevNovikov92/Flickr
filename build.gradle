@@ -1,0 +1,61 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    apply from: 'dependency.gradle'
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+
+ext {
+    androidConfiguration = {
+
+        compileSdkVersion androidCompileSdkVersion
+        buildToolsVersion androidBuildToolsVersion
+
+        defaultConfig {
+
+            vectorDrawables.useSupportLibrary = true
+
+            minSdkVersion androidMinSdkVersion
+            targetSdkVersion androidTargetSdkVersion
+
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    includeCompileClasspath false
+                }
+            }
+
+            dexOptions {
+                keepRuntimeAnnotatedClasses false
+            }
+
+            multiDexEnabled true
+
+            resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
+        }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

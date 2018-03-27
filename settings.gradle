@@ -1,0 +1,14 @@
+/**
+ * app-level
+ */
+include ':app'
+
+/**
+ * feature-level
+ */
+include ':feature-image-search'
+
+/**
+ * core-level
+ */
+include ':core-network'

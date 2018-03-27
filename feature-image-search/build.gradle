@@ -1,0 +1,23 @@
+apply plugin: 'com.android.library'
+android androidConfiguration
+
+dependencies {
+    implementation libs.appcompatV7
+    implementation libs.constraintLayout
+    implementation libs.recyclerView
+    implementation libs.dagger
+}
+
+dependencies {
+    annotationProcessor libs.daggerCompiler
+}
+
+dependencies {
+    testImplementation testLibs.jUnit
+    testImplementation testLibs.mockito
+    testImplementation testLibs.mockito_inline
+    testImplementation testLibs.mockitoKotlin
+}
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
