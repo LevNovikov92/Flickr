@@ -9,4 +9,6 @@ data class Image(
         val secret: String,
         val server: Int,
         val farm: Int
-)
+) {
+    fun getPath() = "/$server/${id}_$secret"
+}

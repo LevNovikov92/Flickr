@@ -20,21 +20,23 @@ class ImageLoaderImpl private constructor() : ImageLoader {
     private lateinit var baseUrl: String
     private lateinit var cache: File
 
-    override fun loadImage(path: String, farm: String): Bitmap {
+    override fun loadImage(path: String, farm: Int): Bitmap {
         val img = saveImageInInternalStorage(farm, path)
         Log.i(">>>IMAGE", "Image " + path + "is loaded")
         return BitmapFactory.decodeFile(img.absolutePath)
     }
 
-    private fun saveImageInInternalStorage(farm: String, path: String): File {
+    private fun saveImageInInternalStorage(farm: Int, path: String): File {
         val request = Request.Builder()
                 .setMethod(Request.Method.GET)
                 .setUrl("http://farm$farm.$baseUrl$path.jpg")
                 .build()
         val response = client.makeCall(request)
-        val img = File(cache, path.replace('/', '_'))
+        val img = File(cache, "$path/$farm".replace('/', '_'))
         if (!img.exists()) {
-            Files.copy(response.body?.contentStream, img.toPath(), StandardCopyOption.REPLACE_EXISTING)
+            val stream = response.body?.contentStream
+            Files.copy(stream, img.toPath(), StandardCopyOption.REPLACE_EXISTING)
+            stream?.close()
         }
         return img
     }

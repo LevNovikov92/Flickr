@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Flickr</string>
+    <string name="enter_text_here">Enter text here</string>
+    <string name="search">Search</string>
 </resources>

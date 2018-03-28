@@ -9,5 +9,5 @@ import android.graphics.Bitmap
 
 interface ImageLoader {
 
-    fun loadImage(path: String, farm: String): Bitmap
+    fun loadImage(path: String, farm: Int): Bitmap
 }

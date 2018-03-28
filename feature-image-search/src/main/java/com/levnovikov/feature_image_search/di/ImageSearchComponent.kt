@@ -1,23 +1,21 @@
 package com.levnovikov.feature_image_search.di
 
-import com.levnovikov.core_common.AsyncHelper
-import com.levnovikov.feature_image_search.SearchActivity
-import com.levnovikov.feature_image_search.data.ImagesRepo
-import com.levnovikov.system_image_loader.ImageLoader
+import com.levnovikov.feature_image_search.ui.ImageSearchPresenter
+import com.levnovikov.feature_image_search.ui.SearchActivity
 
 /**
  * Author: lev.novikov
  * Date: 27/3/18.
  */
 class ImageSearchComponent(
-        private val activity: SearchActivity,
-        private val dependencies: ImageSearchDependencies) {
+        activity: SearchActivity,
+        dependencies: ImageSearchDependencies) {
 
-    private val imageSearchModule = ImageSearchModule(dependencies.getApiProvider())
+    private val imageSearchModule = ImageSearchModule(
+            dependencies.getApiProvider(),
+            dependencies.getImageLoader(),
+            dependencies.getAsyncHelper(),
+            activity)
 
-    fun getAsyncHelper(): AsyncHelper = dependencies.getAsyncHelper()
-
-    fun getImageLoader(): ImageLoader = dependencies.getImageLoader()
-
-    fun getImagesRepo(): ImagesRepo = imageSearchModule.getImagesRepo()
+    fun getPresenter(): ImageSearchPresenter = imageSearchModule.getPresenter()
 }
