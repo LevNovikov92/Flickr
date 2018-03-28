@@ -25,7 +25,7 @@ class ApiProviderTest {
     fun makeRequest() {
         val converter = object : EntityConverter {
 
-            override fun <T> convertTo(entity: T): String {
+            override fun <T : Any> convertTo(entity: T): String {
                 return when (entity) {
                     is ApiProviderTest.UserDataRequest -> "{'id': ${entity.id}}"
                     is UserDataResponse -> "{'name':'User name', 'age': 20}"
@@ -63,7 +63,7 @@ class ApiProviderTest {
         val request = UserDataRequest()
         request.id = "5"
         val response = provider
-                .makeRequest(Request.Method.POST, "/sdfsd/", request, UserDataResponse::class)
+                .makeRequest(Request.Method.POST, "/sdfsd/", request, null, UserDataResponse::class)
         Assert.assertEquals(20, response.age)
         Assert.assertEquals("User name", response.name)
     }

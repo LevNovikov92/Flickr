@@ -2,6 +2,7 @@ package com.levnovikov.feature_image_search.di
 
 import com.levnovikov.core_common.AsyncHelper
 import com.levnovikov.feature_image_search.SearchActivity
+import com.levnovikov.feature_image_search.data.ImagesRepo
 import com.levnovikov.system_image_loader.ImageLoader
 
 /**
@@ -12,9 +13,11 @@ class ImageSearchComponent(
         private val activity: SearchActivity,
         private val dependencies: ImageSearchDependencies) {
 
-    private val imageSearchModule = ImageSearchModule()
+    private val imageSearchModule = ImageSearchModule(dependencies.getApiProvider())
 
     fun getAsyncHelper(): AsyncHelper = dependencies.getAsyncHelper()
 
     fun getImageLoader(): ImageLoader = dependencies.getImageLoader()
+
+    fun getImagesRepo(): ImagesRepo = imageSearchModule.getImagesRepo()
 }

@@ -3,6 +3,7 @@ package com.levnovikov.core_network.di
 import com.levnovikov.core_network.ApiProviderFactory
 import com.levnovikov.core_network.HttpClient
 import com.levnovikov.core_network.HttpClientFactory
+import com.levnovikov.core_network.api_provider.EntityConverter
 import com.levnovikov.core_network.transformers.AuthTransformer
 import com.levnovikov.system_image_loader.ImageLoader
 import com.levnovikov.system_image_loader.ImageLoaderFactory
@@ -13,10 +14,12 @@ import java.io.File
  * Date: 27/3/18.
  */
 
-class NetworkModule(private val cache: File) {
+class NetworkModule(
+        private val cache: File,
+        private val converter: EntityConverter) {
 
     private fun getApiKey(): String { //TODO move to app module
-        return "fe1d3418135ddd69c31f5630b8c521e3"
+        return "3e7cc266ae2b0e0d78e279ce8e361736"
     }
 
     private fun getBaseApiUrl(): String { //TODO move to app module
@@ -24,7 +27,7 @@ class NetworkModule(private val cache: File) {
     }
 
     private fun getApiFactory(): ApiProviderFactory {
-        return ApiProviderFactory(getNetworkClient(), getBaseApiUrl())
+        return ApiProviderFactory(getNetworkClient(), getBaseApiUrl(), converter)
     }
 
     private fun getHttpClientFactory(): HttpClientFactory {
@@ -36,7 +39,7 @@ class NetworkModule(private val cache: File) {
     }
 
     private fun getImageLoaderUrl(): String { //TODO move to app module
-        return "http://farm1.static.flickr.com"
+        return "static.flickr.com"
     }
 
     private fun getImageLoaderClient(): HttpClient {

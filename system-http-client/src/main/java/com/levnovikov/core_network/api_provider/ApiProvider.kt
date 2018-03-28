@@ -19,22 +19,21 @@ class ApiProvider private constructor() {
     private lateinit var client: HttpClient
     private lateinit var contentType: String
 
-    fun <Rq, Rs : Any> makeRequest(
+    fun <Rq : Any, Rs : Any> makeRequest(
             method: Request.Method,
-            path: String, requestEntity: Rq, responseClass: KClass<Rs>): Rs {
+            path: String, requestEntity: Rq?, pathParams: Map<String, String>?, responseClass: KClass<Rs>): Rs {
         return getResponse(
                 client.makeCall(
-                        getRequest(method, path, requestEntity, null)), responseClass)
+                        getRequest(method, path, requestEntity, pathParams)), responseClass)
 
     }
 
-    private fun <T> getRequest(method: Request.Method, path: String, request: T, pathParams: Map<String, String>?): Request {
-        val body = RequestBody(converter.convertTo(request), contentType)
+    private fun <T : Any> getRequest(method: Request.Method, path: String, request: T?, pathParams: Map<String, String>?): Request {
         return Request.Builder()
                 .setMethod(method)
                 .setPathParams(pathParams)
                 .setUrl(baseUrl + path)
-                .setBody(body)
+                .setBody(if (request != null) RequestBody(converter.convertTo(request), contentType) else null)
                 .build()
     }
 

@@ -3,7 +3,6 @@ package com.levnovikov.system_image_loader
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import android.widget.ImageView
 import com.levnovikov.core_network.HttpClient
 import com.levnovikov.core_network.request.Request
 import java.io.File
@@ -21,16 +20,16 @@ class ImageLoaderImpl private constructor() : ImageLoader {
     private lateinit var baseUrl: String
     private lateinit var cache: File
 
-    override fun loadImage(path: String): Bitmap {
-        val img = saveImageInInternalStorage(path)
+    override fun loadImage(path: String, farm: String): Bitmap {
+        val img = saveImageInInternalStorage(farm, path)
         Log.i(">>>IMAGE", "Image " + path + "is loaded")
         return BitmapFactory.decodeFile(img.absolutePath)
     }
 
-    private fun saveImageInInternalStorage(path: String): File {
+    private fun saveImageInInternalStorage(farm: String, path: String): File {
         val request = Request.Builder()
                 .setMethod(Request.Method.GET)
-                .setUrl(baseUrl + path)
+                .setUrl("http://farm$farm.$baseUrl$path.jpg")
                 .build()
         val response = client.makeCall(request)
         val img = File(cache, path.replace('/', '_'))

@@ -12,6 +12,6 @@ import com.levnovikov.system_image_loader.ImageLoader
 interface ImageSearchDependencies {
     fun getAsyncHelper(): AsyncHelper
     fun getAppContext(): Context
-    fun getApiProvider(): ApiProvider?
+    fun getApiProvider(): ApiProvider
     fun getImageLoader(): ImageLoader
 }

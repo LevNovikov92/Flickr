@@ -12,7 +12,8 @@ class AuthTransformer(private val apiKey: String) : RequestTransformer {
 
     override fun transform(request: Request): Request {
         return Request.Builder(request)
-                .addPathParam(API_KEY_NAME, apiKey).build()
+                .addPathParam(API_KEY_NAME, apiKey)
+                .build()
     }
 
     companion object {

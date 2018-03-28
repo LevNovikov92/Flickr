@@ -55,6 +55,7 @@ class Request {
             this.request.method = request.method
             this.request.body = request.body.copy()
             this.request.url = request.url
+            this.request.pathParams.putAll(request.pathParams)
         }
 
         @Throws(RuntimeException::class)
@@ -68,8 +69,8 @@ class Request {
             return this
         }
 
-        fun setBody(body: RequestBody): Builder {
-            request.body = body
+        fun setBody(body: RequestBody?): Builder {
+            request.body = body ?: RequestBody()
             return this
         }
 
@@ -89,8 +90,8 @@ class Request {
             return this
         }
 
-        fun addPathParam(key: String, `val`: String): Builder {
-            request.pathParams[key] = `val`
+        fun addPathParam(key: String, value: String): Builder {
+            request.pathParams[key] = value
             return this
         }
     }

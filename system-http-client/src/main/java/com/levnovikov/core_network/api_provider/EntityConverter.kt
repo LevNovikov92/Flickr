@@ -8,6 +8,6 @@ import kotlin.reflect.KClass
  */
 
 interface EntityConverter {
-    fun <T> convertTo(entity: T): String
+    fun <T : Any> convertTo(entity: T): String
     fun <T : Any> convertFrom(string: String, responseClass: KClass<T>): T
 }
