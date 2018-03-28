@@ -6,18 +6,13 @@ apply plugin: 'kotlin-kapt'
 android androidConfiguration
 
 dependencies {
-    implementation project(':system-http-client')
-    implementation project(':system-image-loader')
-}
-
-dependencies {
+    implementation libs.rxJava
     implementation libs.kotlin
+    implementation libs.dagger
 }
-
 
 dependencies {
     testImplementation testLibs.jUnit
     testImplementation testLibs.mockito
     testImplementation testLibs.mockitoKotlin
-    testImplementation testLibs.mockWebServer
 }

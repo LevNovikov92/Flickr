@@ -3,8 +3,10 @@ apply plugin: 'kotlin-android'
 android androidConfiguration
 
 dependencies {
-    implementation project(":system-image-loader")
+    implementation project(':core-utils')
+    implementation project(':core-network')
     implementation project(':system-http-client')
+    implementation project(':system-image-loader')
 }
 
 dependencies {
@@ -12,10 +14,6 @@ dependencies {
     implementation libs.constraintLayout
     implementation libs.recyclerView
     implementation libs.kotlin
-}
-
-dependencies {
-    annotationProcessor libs.daggerCompiler
 }
 
 dependencies {

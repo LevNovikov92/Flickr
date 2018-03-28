@@ -11,7 +11,7 @@ include ':feature-image-search'
 /**
  * core-level
  */
-include ':core-network'
+include ':core-network', ':core-utils'
 
 /**
  * system-level

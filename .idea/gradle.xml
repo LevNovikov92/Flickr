@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core-network" />
+            <option value="$PROJECT_DIR$/core-utils" />
             <option value="$PROJECT_DIR$/feature-image-search" />
             <option value="$PROJECT_DIR$/system-http-client" />
             <option value="$PROJECT_DIR$/system-image-loader" />
