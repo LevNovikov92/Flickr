@@ -1,7 +1,6 @@
 package com.levnovikov.feature_image_search.ui
 
 import android.support.v7.widget.RecyclerView
-import com.levnovikov.core_common.mvp_mvvm.Active
 import com.levnovikov.feature_image_search.data.ImagesRepo
 import com.levnovikov.feature_image_search.data.entities.PagerData
 import com.levnovikov.feature_image_search.ui.scroll_handler.ImageVOLoader
@@ -13,9 +12,10 @@ import com.levnovikov.feature_image_search.ui.scroll_handler.ScrollHandlerFactor
  * Author: lev.novikov
  * Date: 28/3/18.
  */
-interface ImageSearchPresenter : Active {
+interface ImageSearchPresenter {
     fun onScrolled()
     fun getAdapter(): RecyclerView.Adapter<*>
+    fun onSearchClick(text: String)
 }
 
 class ImageSearchPresenterImpl(
@@ -24,12 +24,12 @@ class ImageSearchPresenterImpl(
         scrollHandlerFactory: ScrollHandlerFactory
 ) : ImageSearchPresenter, ImageVOLoader, PageLoadingListener {
 
+    override fun onSearchClick(text: String) {
+        scrollHandler.reloadData(text)
+    }
+
     private val scrollHandler: ScrollHandler
             = scrollHandlerFactory.getEndlessScrollHandler(this, this)
-
-    override fun onGetActive() {
-        scrollHandler.reloadData("dog")
-    }
 
     override fun loadVO(page: Int, text: String): Pair<List<ImageVO>, PagerData> {
         return imagesRepo.getImages(page, text).run {

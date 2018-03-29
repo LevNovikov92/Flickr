@@ -40,6 +40,7 @@ class EndlessScrollHandler (
     @SuppressLint("VisibleForTests")
     @MainThread
     override fun reloadData(text: String) {
+        if (text.isEmpty()) return
         this.text = text
         resetHandlerState()
         pageLoadingListener.onStartLoading()

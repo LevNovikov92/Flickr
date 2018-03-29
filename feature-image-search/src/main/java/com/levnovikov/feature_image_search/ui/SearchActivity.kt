@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.EditText
 import com.levnovikov.core_common.getComponent
 import com.levnovikov.feature_image_search.R
 import com.levnovikov.feature_image_search.di.ImageSearchComponent
@@ -11,16 +13,27 @@ import com.levnovikov.feature_image_search.di.ImageSearchDependencies
 
 class SearchActivity : AppCompatActivity(), ImageSearchView {
 
+    private lateinit var presenter: ImageSearchPresenter
+
+    private val layoutManager = GridLayoutManager(this, 3)
+
+    private lateinit var recycler: RecyclerView
+    private lateinit var searchField: EditText
+    private lateinit var progress: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        recycler = findViewById(R.id.recycler_view)
+        initViews()
         setupDI()
         setupUI()
-        presenter.onGetActive()
     }
 
-    private lateinit var presenter: ImageSearchPresenter
+    private fun initViews() {
+        recycler = findViewById(R.id.recycler_view)
+        searchField = findViewById(R.id.search_field)
+        progress = findViewById(R.id.progress)
+    }
 
     private fun setupDI() {
         application?.getComponent<ImageSearchDependencies>()?.let { dependencies ->
@@ -29,9 +42,6 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
             }
         }
     }
-
-    private lateinit var recycler: RecyclerView
-    private val layoutManager = GridLayoutManager(this, 3)
 
     private fun setupUI() {
         recycler.layoutManager = layoutManager
@@ -42,35 +52,21 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
             }
         })
         recycler.adapter = presenter.getAdapter()
-    }
 
-//    private fun loadImage(path: String = "/866/26171503967_f609bf5709", farm: String = "1") {
-//        asyncHelper.doInBackground {
-//            val bitmap = imageLoader.loadImage(path, farm)
-//            asyncHelper.doInMainThread {
-//                val view = findViewById<ImageView>(R.id.imageView)
-//                view.setImageBitmap(bitmap)
-//            }
-//        }
-//    }
-//
-//    private fun makeRequest() {
-//        asyncHelper.doInBackground {
-//            val images = imagesRepo.getImages(1, "dog")
-//            images.second[0].run {
-//                loadImage("/$server/${id}_$secret", farm.toString())
-//            }
-//        }
-//    }
+        findViewById<View>(R.id.search_button)
+                .setOnClickListener { presenter.onSearchClick(searchField.text?.toString() ?: "") }
+    }
 
     override fun getLastVisibleItemPosition(): Int =
             layoutManager.findLastVisibleItemPosition()
 
     override fun showProgress() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recycler.visibility = View.INVISIBLE
+        progress.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recycler.visibility = View.VISIBLE
+        progress.visibility = View.INVISIBLE
     }
 }
