@@ -12,6 +12,8 @@ import com.levnovikov.feature_image_search.R
 import com.levnovikov.feature_image_search.di.ImageSearchComponent
 import com.levnovikov.feature_image_search.di.ImageSearchDependencies
 
+private const val SEARCH_SCREEN_STATE = "SEARCH_SCREEN_STATE"
+
 class SearchActivity : AppCompatActivity(), ImageSearchView {
 
     private lateinit var presenter: ImageSearchPresenter
@@ -27,8 +29,17 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         initViews()
-        setupDI()
+        setupDI(getSearchScreenState(savedInstanceState))
         setupUI()
+        presenter.onGetActive()
+    }
+
+    private fun getSearchScreenState(savedInstanceState: Bundle?): SearchScreenState =
+            savedInstanceState?.getParcelable(SEARCH_SCREEN_STATE) ?: SearchScreenState("")
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelable(SEARCH_SCREEN_STATE, presenter.getState())
+        super.onSaveInstanceState(outState)
     }
 
     private fun initViews() {
@@ -38,9 +49,9 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
         searchHint = findViewById(R.id.search_hint)
     }
 
-    private fun setupDI() {
+    private fun setupDI(state: SearchScreenState) {
         application?.getComponent<ImageSearchDependencies>()?.let { dependencies ->
-            ImageSearchComponent(this, dependencies).let {
+            ImageSearchComponent(this, dependencies, state).let {
                 presenter = it.getPresenter()
             }
         }

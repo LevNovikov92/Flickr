@@ -9,6 +9,7 @@ import com.levnovikov.feature_image_search.data.ImagesRepo
 import com.levnovikov.feature_image_search.ui.ImageSearchPresenter
 import com.levnovikov.feature_image_search.ui.ImageSearchPresenterImpl
 import com.levnovikov.feature_image_search.ui.SearchActivity
+import com.levnovikov.feature_image_search.ui.SearchScreenState
 import com.levnovikov.feature_image_search.ui.scroll_handler.ScrollHandlerFactory
 import com.levnovikov.system_image_loader.ImageLoader
 
@@ -20,7 +21,8 @@ class ImageSearchModule(
         private val apiProvider: ApiProvider,
         private val imageLoader: ImageLoader,
         private val asyncHelper: AsyncHelper,
-        private val activity: SearchActivity) {
+        private val activity: SearchActivity,
+        private val state: SearchScreenState) {
 
     fun getImagesRepo(): ImagesRepo = ImageRepoImpl(getImagesApi())
 
@@ -31,5 +33,5 @@ class ImageSearchModule(
             ScrollHandlerFactory(asyncHelper, imageLoader, activity.layoutInflater, activity)
 
     fun getPresenter(): ImageSearchPresenter =
-            ImageSearchPresenterImpl(activity, getImagesRepo(), getScrollHandlerFactory())
+            ImageSearchPresenterImpl(activity, getImagesRepo(), state, getScrollHandlerFactory())
 }
