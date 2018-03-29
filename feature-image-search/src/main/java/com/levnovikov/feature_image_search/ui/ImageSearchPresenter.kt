@@ -25,7 +25,11 @@ class ImageSearchPresenterImpl(
 ) : ImageSearchPresenter, ImageVOLoader, PageLoadingListener {
 
     override fun onSearchClick(text: String) {
-        scrollHandler.reloadData(text)
+        if (text.isEmpty()) {
+            view.showHintToast()
+        } else {
+            scrollHandler.reloadData(text)
+        }
     }
 
     private val scrollHandler: ScrollHandler

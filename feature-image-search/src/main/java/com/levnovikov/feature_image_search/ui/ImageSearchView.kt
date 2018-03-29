@@ -14,6 +14,7 @@ interface ImageSearchView {
     fun getLastVisibleItemPosition(): Int
     fun showProgress()
     fun hideProgress()
+    fun showHintToast()
 }
 
 class ViewHolder(private val view: ImageView) : RecyclerView.ViewHolder(view) {

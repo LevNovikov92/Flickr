@@ -62,13 +62,13 @@ class EndlessScrollHandler (
             val data = imageLoader.loadVO(++currentPage, text)
             Log.d(">>>> LoadNewData","(loading finished): currentPage = ${currentPage - 1}")
             asyncHelper.doInMainThread {
+                pageLoadingListener.onLoaded()
                 adapter.addItems(data.first)
                 totalPages = data.second.pages
                 loadingInProgress = false
                 onScroll() //check conditions and load more data if needed
             }
         }
-        pageLoadingListener.onLoaded()
     }
 
     @SuppressLint("VisibleForTests")
