@@ -6,6 +6,7 @@ import android.util.Log
 import com.levnovikov.core_network.HttpClient
 import com.levnovikov.core_network.request.Request
 import java.io.File
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
@@ -20,25 +21,32 @@ class ImageLoaderImpl private constructor() : ImageLoader {
     private lateinit var baseUrl: String
     private lateinit var cache: File
 
-    override fun loadImage(path: String, farm: Int): Bitmap {
+    override fun loadImage(path: String, farm: Int): Bitmap? {
         val img = saveImageInInternalStorage(farm, path)
         Log.i(">>>IMAGE", "Image " + path + "is loaded")
         return BitmapFactory.decodeFile(img.absolutePath)
     }
 
     private fun saveImageInInternalStorage(farm: Int, path: String): File {
-        val request = Request.Builder()
-                .setMethod(Request.Method.GET)
-                .setUrl("http://farm$farm.$baseUrl$path.jpg")
-                .build()
-        val response = client.makeCall(request)
-        val img = File(cache, "$path/$farm".replace('/', '_'))
-        if (!img.exists()) {
-            val stream = response.body?.contentStream
-            Files.copy(stream, img.toPath(), StandardCopyOption.REPLACE_EXISTING)
-            stream?.close()
+        var img: File? = null
+        try {
+            val request = Request.Builder()
+                    .setMethod(Request.Method.GET)
+                    .setUrl("http://farm$farm.$baseUrl$path.jpg")
+                    .build()
+            val response = client.makeCall(request)
+            img = File(cache, "$path/$farm".replace('/', '_'))
+            if (!img.exists()) {
+                val stream = response.body?.contentStream
+                Files.copy(stream, img.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                stream?.close()
+            }
+            return img
+        } catch (e: Exception) {
+            img?.delete()
+            Log.d(">>>IMG_DELETE", "delete file")
+            throw e
         }
-        return img
     }
 
     class Builder {

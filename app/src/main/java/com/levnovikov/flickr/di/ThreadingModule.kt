@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Handler
 import com.levnovikov.core_common.AsyncHelper
 import com.levnovikov.core_common.AsyncHelperImpl
-import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 /**
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors
 
 class ThreadingModule(private val context: Context) {
 
-    private fun getBackgroundExecutor(): Executor =
+    private fun getBackgroundExecutor(): ExecutorService =
             Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
     private fun getMainHandler(): Handler =

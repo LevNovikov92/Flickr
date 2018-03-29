@@ -2,7 +2,7 @@ package com.levnovikov.feature_image_search.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.levnovikov.core_common.getComponent
 import com.levnovikov.feature_image_search.R
@@ -31,7 +31,7 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
     }
 
     private lateinit var recycler: RecyclerView
-    private val layoutManager = LinearLayoutManager(this)
+    private val layoutManager = GridLayoutManager(this, 3)
 
     private fun setupUI() {
         recycler.layoutManager = layoutManager
