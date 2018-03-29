@@ -1,6 +1,9 @@
 package com.levnovikov.feature_image_search.ui
 
+import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.util.LruCache
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -25,9 +28,11 @@ class ImagesAdapterImpl constructor(
         private val asyncHelper: AsyncHelper
 ) : RecyclerView.Adapter<ViewHolder>(), ImagesAdapter {
 
+    private val inMemoryCache = LruCache<String, Bitmap>(100)
+
     override fun addItems(items: List<ImageVO>) {
         data.addAll(items)
-//        notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
     override fun clearData() {
@@ -38,13 +43,25 @@ class ImagesAdapterImpl constructor(
     private val data: MutableList<ImageVO> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder =
-        ViewHolder(inflater.inflate(R.layout.image_item, parent, false) as ImageView,
-                imageLoader, asyncHelper)
+        ViewHolder(inflater.inflate(R.layout.image_item, parent, false) as ImageView)
 
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+        asyncHelper.doInBackground {
+            val data = data[position]
+            val cachedImg = inMemoryCache.get(data.path)
+            val img = if (cachedImg == null) {
+                val loadedImg = imageLoader.loadImage(data.path, data.farm)
+                inMemoryCache.put(data.path, loadedImg)
+                Log.d(">>>IMG", "Loaded image used")
+                loadedImg
+            } else {
+                Log.d(">>>IMG", "Cached image used")
+                cachedImg
+            }
+            asyncHelper.doInMainThread { holder.bind(img) }
+        }
     }
 
     override fun itemsCount(): Int = data.size
