@@ -30,7 +30,6 @@ class ImagesAdapterImpl constructor(
         private val asyncHelper: AsyncHelper
 ) : RecyclerView.Adapter<ViewHolder>(), ImagesAdapter {
 
-    private val inMemoryCache = LruCache<String, Bitmap>(200)
     private val disposables = mutableMapOf<String, Future<*>>()
 
     override fun addItems(items: List<ImageVO>) {
@@ -56,16 +55,7 @@ class ImagesAdapterImpl constructor(
         val task = asyncHelper.doInBackground {
             try {
                 val data = data[position]
-                val cachedImg = inMemoryCache.get(data.path)
-                val img = if (cachedImg == null) {
-                    val loadedImg = imageLoader.loadImage(data.path, data.farm) ?: throw BitmapEncodingException()
-                    inMemoryCache.put(data.path, loadedImg)
-                    Log.d(">>>IMG", "Loaded image used")
-                    loadedImg
-                } else {
-                    Log.d(">>>IMG", "Cached image used")
-                    cachedImg
-                }
+                val img = imageLoader.loadImage(data.path, data.farm) ?: throw BitmapEncodingException()
                 asyncHelper.doInMainThread {
                     holder.bind(img)
                     disposables.remove(holder.id)

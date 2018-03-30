@@ -3,10 +3,10 @@ package com.levnovikov.system_image_loader
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import android.util.LruCache
 import com.levnovikov.core_network.HttpClient
 import com.levnovikov.core_network.request.Request
 import java.io.File
-import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
@@ -15,27 +15,38 @@ import java.nio.file.StandardCopyOption
  * Date: 27/3/18.
  */
 
+private const val DEFAULT_IN_MEMORY_CACHE_SIZE = 200
+
 class ImageLoaderImpl private constructor() : ImageLoader {
 
     private lateinit var client: HttpClient
     private lateinit var baseUrl: String
-    private lateinit var cache: File
+    private lateinit var persistentCache: File
+
+    private var isTerminated = false
+
+    private var inMemoryCacheSize = DEFAULT_IN_MEMORY_CACHE_SIZE
+    private val inMemoryCache = LruCache<String, Bitmap>(inMemoryCacheSize)
 
     override fun loadImage(path: String, farm: Int): Bitmap? {
-        val img = saveImageInInternalStorage(farm, path)
-        Log.i(">>>IMAGE", "Image " + path + "is loaded")
-        return BitmapFactory.decodeFile(img.absolutePath)
+        if (isTerminated) throw UnsupportedOperationException("Loading after termination")
+        inMemoryCache.get(path)?.let { return it.apply { Log.d(">>>IMG", "Cached image used") } }
+
+        val img = saveImageInPersistentStorage(farm, path)
+        Log.i(">>>IMG", "Image " + path + "is loaded")
+        Log.d(">>>IMG", "Loaded image used")
+        return BitmapFactory.decodeFile(img.absolutePath).apply { inMemoryCache.put(path, this) }
     }
 
-    private fun saveImageInInternalStorage(farm: Int, path: String): File {
+    private fun saveImageInPersistentStorage(farm: Int, path: String): File {
         var img: File? = null
         try {
             val request = Request.Builder()
                     .setMethod(Request.Method.GET)
-                    .setUrl("http://farm$farm.$baseUrl$path.jpg")
+                    .setUrl("http://farm$farm.$baseUrl${path}_s.jpg")
                     .build()
             val response = client.makeCall(request)
-            img = File(cache, "$path/$farm".replace('/', '_'))
+            img = File(persistentCache, "$path/$farm".replace('/', '_'))
             if (!img.exists()) {
                 val stream = response.body?.contentStream
                 Files.copy(stream, img.toPath(), StandardCopyOption.REPLACE_EXISTING)
@@ -64,7 +75,12 @@ class ImageLoaderImpl private constructor() : ImageLoader {
 
         fun setCache(dir: File): Builder {
             if (!dir.isDirectory) throw UnsupportedOperationException("Cache should be a directory")
-            loader.cache = dir
+            loader.persistentCache = dir
+            return this
+        }
+
+        fun setInMemoryCacheSize(countOfImages: Int): Builder { //TODO will be better to specify size in bytes
+            loader.inMemoryCacheSize = countOfImages
             return this
         }
 

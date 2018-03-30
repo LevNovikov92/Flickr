@@ -35,20 +35,26 @@ class UrlConnectionCallExecutor : CallExecutor {
     }
 
     private fun getResponseBody(connection: HttpURLConnection): ResponseBody {
-        val stream: InputStream = try {
-            connection.inputStream
-        } catch (e: IOException) {
-            connection.errorStream
-        }
+        var stream: InputStream? = null
+        try {
+            stream = try {
+                connection.inputStream
+            } catch (e: IOException) {
+                connection.errorStream
+            }
 
-        val contentType = connection.contentType
-        var encoding = Charsets.UTF_8.toString()
-        var mediaType = ""
-        if (contentType != null) {
-            encoding = getCharset(contentType)
-            mediaType = getMediaType(contentType)
+            val contentType = connection.contentType
+            var encoding = Charsets.UTF_8.toString()
+            var mediaType = ""
+            if (contentType != null) {
+                encoding = getCharset(contentType)
+                mediaType = getMediaType(contentType)
+            }
+            return ResponseBody(stream, encoding, mediaType)
+        } catch (e: Exception) {
+            stream?.close()
+            throw e
         }
-        return ResponseBody(stream, encoding, mediaType)
     }
 
     private fun getCharset(contentType: String): String {

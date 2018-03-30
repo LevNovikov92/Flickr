@@ -17,6 +17,15 @@ class ResponseBody(val contentStream: InputStream, val encoding: String, val med
 
     @Throws(IOException::class)
     private fun readStringFromStream(input: InputStream): String {
-        return input.bufferedReader(Charset.forName(encoding)).use { it.readText() }.apply { input.close() }
+        try {
+            return input.bufferedReader(Charset.forName(encoding)).use { it.readText() }.apply { input.close() }
+        } catch (e: Exception) {
+            input.close()
+            throw e
+        }
+    }
+
+    fun close() {
+        contentStream.close()
     }
 }

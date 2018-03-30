@@ -24,7 +24,7 @@ class ImageSearchModule(
         private val activity: SearchActivity,
         private val state: SearchScreenState) {
 
-    fun getImagesRepo(): ImagesRepo = ImageRepoImpl(getImagesApi())
+    private fun getImagesRepo(): ImagesRepo = ImageRepoImpl(getImagesApi())
 
     private fun getImagesApi(): ImagesApi =
             ImagesApiImpl(apiProvider)

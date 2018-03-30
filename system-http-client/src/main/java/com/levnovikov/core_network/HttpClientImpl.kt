@@ -17,7 +17,6 @@ class HttpClientImpl private constructor() : HttpClient {
     private val requestTransformers = ArrayList<RequestTransformer>()
     private val responseTransformers = ArrayList<ResponseTransformer>()
     private lateinit var callExecutor: CallExecutor
-//    private lateinit var threadComposer: SingleTransformer<Response, Response> TODO solve
 
     override fun makeCall(request: Request): Response {
         return applyResponseTransformers(callExecutor.execute(
@@ -34,10 +33,15 @@ class HttpClientImpl private constructor() : HttpClient {
 
     private fun applyResponseTransformers(response: Response): Response {
         var resp = response
-        responseTransformers.forEach {
-            resp = it.transform(resp)
+        try {
+            responseTransformers.forEach {
+                resp = it.transform(resp)
+            }
+            return resp
+        } catch (e: Exception) {
+            resp.body?.close()
+            throw e
         }
-        return resp
     }
 
     class Builder {
@@ -46,11 +50,6 @@ class HttpClientImpl private constructor() : HttpClient {
         init {
             client.callExecutor = UrlConnectionCallExecutor()
         }
-
-//        fun threadComposer(threadComposer: SingleTransformer<Response, Response>): Builder { TODO
-//            client.threadComposer = threadComposer
-//            return this
-//        }
 
         fun callExecutor(callExecutor: CallExecutor): Builder {
             client.callExecutor = callExecutor
