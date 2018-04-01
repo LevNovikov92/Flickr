@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import com.levnovikov.core_api.api.error.RequestException
 import com.levnovikov.core_common.Active
 import com.levnovikov.data_images.ImagesRepo
-import com.levnovikov.feature_image_search.data.entities.PagerData
+import com.levnovikov.data_images.entities.PagerData
 import com.levnovikov.feature_image_search.scroll_handler.ImageVOLoader
 import com.levnovikov.feature_image_search.scroll_handler.PageLoadingListener
 import com.levnovikov.feature_image_search.scroll_handler.ScrollHandler
@@ -31,7 +31,7 @@ class ImageSearchPresenterImpl(
         scrollHandlerFactory: ScrollHandlerFactory
 ) : ImageSearchPresenter, ImageVOLoader, PageLoadingListener {
 
-    private var text: String = ""
+    private var text: String = initialState?.text ?: ""
 
     override fun onSearchClick(text: String) {
         if (text.isEmpty()) {

@@ -21,12 +21,6 @@ class SearchImagesResponseConverter : ResponseConverter<SearchImagesResponse> {
 
     private val photosConverter = PhotosResponseConverter()
 
-    override fun convertTo(entity: SearchImagesResponse): String =
-            JSONObject().apply {
-                put(PHOTOS, photosConverter.convertTo(entity.photos))
-                put(STAT, entity.stat)
-            }.toString()
-
     override fun convertFrom(string: String): SearchImagesResponse =
             JSONObject(string).run {
                 SearchImagesResponse(
@@ -49,13 +43,6 @@ class PhotosResponseConverter : ResponseConverter<PhotosResponse> {
     private val imagesConverter = ImageResponseConverter()
 
     override fun getEntityClass(): KClass<PhotosResponse> = PhotosResponse::class
-
-    override fun convertTo(entity: PhotosResponse): String =
-            JSONObject().apply {
-                put(PAGE, entity.page)
-                put(PAGES, entity.pages)
-                put(PHOTO, JSONArray().apply { entity.photo.forEach { put(imagesConverter.convertTo(it)) } })
-            }.toString()
 
     override fun convertFrom(string: String): PhotosResponse =
             JSONObject(string).run {
@@ -80,14 +67,6 @@ class ImageResponseConverter : ResponseConverter<ImageResponse> {
     }
 
     override fun getEntityClass(): KClass<ImageResponse> = ImageResponse::class
-
-    override fun convertTo(entity: ImageResponse): String =
-            JSONObject().apply {
-                put(ID, entity.id)
-                put(SECRET, entity.secret)
-                put(SERVER, entity.server)
-                put(FARM, entity.farm)
-            }.toString()
 
     override fun convertFrom(string: String): ImageResponse =
             JSONObject(string).run {

@@ -44,8 +44,8 @@ class UrlConnectionCallExecutor : CallExecutor {
             }
 
             val contentType = connection.contentType
-            var encoding = Charsets.UTF_8.toString()
-            var mediaType = ""
+            var encoding = "UTF-8"
+            var mediaType = "text/html"
             if (contentType != null) {
                 encoding = getCharset(contentType)
                 mediaType = getMediaType(contentType)
@@ -59,7 +59,7 @@ class UrlConnectionCallExecutor : CallExecutor {
 
     private fun getCharset(contentType: String): String {
         //TODO not implemented
-        return Charsets.UTF_8.toString()
+        return "UTF-8"
     }
 
     private fun getMediaType(contentType: String): String {

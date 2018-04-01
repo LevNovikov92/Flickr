@@ -3,13 +3,12 @@ package com.levnovikov.feature_image_search.scroll_handler
 import android.annotation.SuppressLint
 import android.support.annotation.MainThread
 import android.support.annotation.VisibleForTesting
-import android.util.Log
 import com.levnovikov.core_api.api.error.RequestException
 import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.data_images.entities.PagerData
 import com.levnovikov.feature_image_search.ImageSearchView
 import com.levnovikov.feature_image_search.ImageVO
 import com.levnovikov.feature_image_search.ImagesAdapter
-import com.levnovikov.feature_image_search.data.entities.PagerData
 
 interface ImageVOLoader {
     fun loadVO(page: Int, text: String): Pair<List<ImageVO>, PagerData>
@@ -61,10 +60,8 @@ class EndlessScrollHandler (
     internal fun loadNextPage() {
         loadingInProgress = true
         asyncHelper.doInBackground {
-
             try {
                 val data = imageLoader.loadVO(++currentPage, text)
-                Log.d(">>>> LoadNewData","(loading finished): currentPage = ${currentPage - 1}")
                 asyncHelper.doInMainThread {
                     pageLoadingListener.onLoaded()
                     adapter.addItems(data.first)

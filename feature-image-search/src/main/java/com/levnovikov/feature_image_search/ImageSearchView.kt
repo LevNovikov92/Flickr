@@ -26,6 +26,6 @@ class ViewHolder(private val view: ImageView) : RecyclerView.ViewHolder(view) {
     }
 
     fun showPlaceHolder() {
-        view.setImageResource(R.drawable.ic_launcher_foreground)
+        view.setImageResource(R.drawable.ic_autorenew_black_24dp)
     }
 }

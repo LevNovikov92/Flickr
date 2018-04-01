@@ -6,7 +6,11 @@ import android.util.Log
 import android.util.LruCache
 import com.levnovikov.core_network.HttpClient
 import com.levnovikov.core_network.request.Request
+import java.io.BufferedInputStream
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
@@ -40,6 +44,7 @@ class ImageLoaderImpl private constructor() : ImageLoader {
 
     private fun saveImageInPersistentStorage(farm: Int, path: String): File {
         var img: File? = null
+        var stream: InputStream? = null
         try {
             val request = Request.Builder()
                     .setMethod(Request.Method.GET)
@@ -48,15 +53,31 @@ class ImageLoaderImpl private constructor() : ImageLoader {
             val response = client.makeCall(request)
             img = File(persistentCache, "$path/$farm".replace('/', '_'))
             if (!img.exists()) {
-                val stream = response.body?.contentStream
-                Files.copy(stream, img.toPath(), StandardCopyOption.REPLACE_EXISTING)
-                stream?.close()
+                stream = response.body.contentStream
+                copy(stream, img)
             }
             return img
         } catch (e: Exception) {
             img?.delete()
             Log.d(">>>IMG_DELETE", "delete file")
             throw e
+        } finally {
+            stream?.close()
+        }
+    }
+
+    private fun copy(inputStream: InputStream, file: File) {
+        val out = FileOutputStream(file)
+        try {
+            val buf = ByteArray(1024)
+            var length: Int = inputStream.read(buf)
+            while(length > 0){
+                out.write(buf, 0, length)
+                length = inputStream.read(buf)
+            }
+        } finally {
+            out.close()
+            inputStream.close()
         }
     }
 

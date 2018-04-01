@@ -1,4 +1,4 @@
-package com.levnovikov.feature_image_search.data.entities
+package com.levnovikov.data_images.entities
 
 /**
  * Author: lev.novikov
@@ -6,8 +6,8 @@ package com.levnovikov.feature_image_search.data.entities
  */
 data class Image(
         val id: String,
-        val secret: String,
-        val server: Int,
+        private val secret: String,
+        private val server: Int,
         val farm: Int
 ) {
     fun getPath() = "/$server/${id}_$secret"

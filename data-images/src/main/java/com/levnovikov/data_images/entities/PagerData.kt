@@ -1,4 +1,4 @@
-package com.levnovikov.feature_image_search.data.entities
+package com.levnovikov.data_images.entities
 
 /**
  * Author: lev.novikov

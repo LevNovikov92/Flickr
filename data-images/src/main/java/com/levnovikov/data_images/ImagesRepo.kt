@@ -3,8 +3,8 @@ package com.levnovikov.data_images
 import com.levnovikov.core_api.api.ImagesApi
 import com.levnovikov.core_api.api.entities.SearchImagesResponse
 import com.levnovikov.core_api.api.error.RequestException
-import com.levnovikov.feature_image_search.data.entities.Image
-import com.levnovikov.feature_image_search.data.entities.PagerData
+import com.levnovikov.data_images.entities.Image
+import com.levnovikov.data_images.entities.PagerData
 
 /**
  * Author: lev.novikov

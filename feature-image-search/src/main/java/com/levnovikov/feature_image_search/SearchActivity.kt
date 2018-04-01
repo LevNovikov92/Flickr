@@ -1,15 +1,18 @@
 package com.levnovikov.feature_image_search
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import com.levnovikov.core_common.getComponent
 import com.levnovikov.feature_image_search.di.ImageSearchComponent
 import com.levnovikov.feature_image_search.di.ImageSearchDependencies
+
 
 private const val SEARCH_SCREEN_STATE = "SEARCH_SCREEN_STATE"
 
@@ -23,6 +26,7 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
     private lateinit var searchField: EditText
     private lateinit var progress: View
     private lateinit var searchHint: View
+    private lateinit var inputManager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,8 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
         searchField = findViewById(R.id.search_field)
         progress = findViewById(R.id.progress)
         searchHint = findViewById(R.id.search_hint)
+
+        inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     private fun setupDI(state: SearchScreenState) {
@@ -67,7 +73,10 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
         recycler.adapter = presenter.getAdapter()
 
         findViewById<View>(R.id.search_button)
-                .setOnClickListener { presenter.onSearchClick(searchField.text?.toString() ?: "") }
+                .setOnClickListener {
+                    presenter.onSearchClick(searchField.text?.toString() ?: "")
+                    inputManager.hideSoftInputFromWindow(searchField.windowToken, 0)
+                }
     }
 
     override fun getLastVisibleItemPosition(): Int =

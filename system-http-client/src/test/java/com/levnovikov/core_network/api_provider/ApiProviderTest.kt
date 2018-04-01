@@ -23,20 +23,23 @@ class ApiProviderTest {
     @Test
     @Throws(Exception::class)
     fun makeRequest() {
-        val converter = object : EntityConverter {
-
-            override fun <T : Any> convertTo(entity: T): String {
-                return when (entity) {
-                    is ApiProviderTest.UserDataRequest -> "{'id': ${entity.id}}"
-                    is UserDataResponse -> "{'name':'User name', 'age': 20}"
-                    else -> throw UnsupportedOperationException("Not supported")
-                }
-            }
+        val responseConverter = object : ResponseConverter {
 
             @Suppress("UNCHECKED_CAST")
             override fun <T : Any> convertFrom(string: String, responseClass: KClass<T>): T {
                 return when (responseClass) {
                     UserDataResponse::class -> UserDataResponse("User name", 20) as T
+                    else -> throw UnsupportedOperationException("Not supported")
+                }
+            }
+        }
+
+        val requestConverter = object : RequestConverter {
+
+            override fun <T : Any> convertTo(entity: T): String {
+                return when (entity) {
+                    is ApiProviderTest.UserDataRequest -> "{'id': ${entity.id}}"
+                    is UserDataResponse -> "{'name':'User name', 'age': 20}"
                     else -> throw UnsupportedOperationException("Not supported")
                 }
             }
@@ -48,7 +51,7 @@ class ApiProviderTest {
                 response.age = 20
                 response.name = "User name"
                 val responseBody = ResponseBody(
-                        ByteArrayInputStream(converter.convertTo(response).toByteArray(StandardCharsets.UTF_8)), "utf-8", "")
+                        ByteArrayInputStream(requestConverter.convertTo(response).toByteArray(StandardCharsets.UTF_8)), "utf-8", "")
                 return Response.Builder().body(responseBody).build()
             }
         }
@@ -57,7 +60,7 @@ class ApiProviderTest {
                 .baseUrl("https://google.com")
                 .client(client)
                 .contentType("text/html")
-                .converter(converter)
+                .converter(requestConverter, responseConverter)
                 .build()
 
         val request = UserDataRequest()

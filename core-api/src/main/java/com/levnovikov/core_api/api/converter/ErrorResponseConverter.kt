@@ -2,10 +2,8 @@ package com.levnovikov.core_api.api.converter
 
 import com.levnovikov.core_api.api.ResponseStatus
 import com.levnovikov.core_api.api.entities.ErrorResponse
-import com.levnovikov.core_api.api.entities.ImageResponse
 import com.levnovikov.core_network.api_provider.ErrorConverter
 import org.json.JSONObject
-import kotlin.reflect.KClass
 
 /**
  * Author: lev.novikov

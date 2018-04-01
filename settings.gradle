@@ -1,7 +1,7 @@
 /**
  * app-level
  */
-include ':app', ':core-api', ':data-images'
+include ':app'
 
 /**
  * feature-level
@@ -9,9 +9,14 @@ include ':app', ':core-api', ':data-images'
 include ':feature-image-search'
 
 /**
+ * data-level
+ */
+include ':data-images'
+
+/**
  * core-level
  */
-include ':core-network', ':core-utils'
+include ':core-network', ':core-utils', ':core-api'
 
 /**
  * system-level

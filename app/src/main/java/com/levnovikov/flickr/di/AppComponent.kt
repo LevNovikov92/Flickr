@@ -1,7 +1,7 @@
 package com.levnovikov.flickr.di
 
 import android.content.Context
-import com.levnovikov.core_api.api.converter.ApiEntityConverter
+import com.levnovikov.core_api.api.converter.ApiResponseConverter
 import com.levnovikov.core_api.api.converter.ErrorResponseConverter
 import com.levnovikov.core_common.AsyncHelper
 import com.levnovikov.core_network.di.NetworkModule
@@ -15,7 +15,7 @@ import com.levnovikov.system_image_loader.ImageLoader
 
 class AppComponent(context: Context) : ImageSearchDependencies {
 
-    private val networkModule = NetworkModule(context.cacheDir, ApiEntityConverter(), ErrorResponseConverter())
+    private val networkModule = NetworkModule(context.cacheDir, ApiResponseConverter(), ErrorResponseConverter())
     private val appModule = AppModule(context)
     private val threadingModule = ThreadingModule(context)
 

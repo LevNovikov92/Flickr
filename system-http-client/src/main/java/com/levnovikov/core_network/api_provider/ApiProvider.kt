@@ -6,7 +6,6 @@ import com.levnovikov.core_network.request.Request
 import com.levnovikov.core_network.request.RequestBody
 import com.levnovikov.core_network.response.Response
 import org.json.JSONException
-import org.json.JSONObject
 import java.io.IOException
 import kotlin.reflect.KClass
 
@@ -18,7 +17,8 @@ import kotlin.reflect.KClass
 class ApiProvider private constructor() {
 
     private lateinit var baseUrl: String
-    private lateinit var converter: EntityConverter
+    private lateinit var responseConverter: ResponseConverter
+    private lateinit var requestConverter: RequestConverter
     private lateinit var errorConverter: ErrorConverter
     private lateinit var client: HttpClient
     private lateinit var contentType: String
@@ -38,7 +38,7 @@ class ApiProvider private constructor() {
                 .setMethod(method)
                 .setPathParams(pathParams)
                 .setUrl(baseUrl + path)
-                .setBody(if (request != null) RequestBody(converter.convertTo(request), contentType) else null)
+                .setBody(if (request != null) RequestBody(requestConverter.convertTo(request), contentType) else null)
                 .build()
     }
 
@@ -46,7 +46,7 @@ class ApiProvider private constructor() {
     private fun <R : Any> getResponse(rsp: Response, responseClass: KClass<R>): R {
         val body = rsp.body.contentString
         try {
-            return converter.convertFrom(body, responseClass)
+            return responseConverter.convertFrom(body, responseClass)
         } catch (e: JSONException) {
             throw RequestError(errorConverter.convertFrom(body))
         }
@@ -60,8 +60,9 @@ class ApiProvider private constructor() {
             return this
         }
 
-        fun converter(converter: EntityConverter): Builder {
-            provider.converter = converter
+        fun converter(requestConverter: RequestConverter, responseConverter: ResponseConverter): Builder {
+            provider.requestConverter = requestConverter
+            provider.responseConverter = responseConverter
             return this
         }
 
