@@ -12,7 +12,7 @@ class HttpClientFactory internal constructor(private val authTransformer: AuthTr
     fun buildNetworkClient(): HttpClient {
         return HttpClientImpl.Builder()
                 .callExecutor(UrlConnectionCallExecutor())
-//                .addTransformer(authTransformer)
+                .addTransformer(authTransformer)
                 .build()
     }
 
