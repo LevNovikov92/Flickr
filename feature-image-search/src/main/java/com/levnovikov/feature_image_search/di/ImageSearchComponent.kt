@@ -1,8 +1,8 @@
 package com.levnovikov.feature_image_search.di
 
-import com.levnovikov.feature_image_search.ui.ImageSearchPresenter
-import com.levnovikov.feature_image_search.ui.SearchActivity
-import com.levnovikov.feature_image_search.ui.SearchScreenState
+import com.levnovikov.feature_image_search.ImageSearchPresenter
+import com.levnovikov.feature_image_search.SearchActivity
+import com.levnovikov.feature_image_search.SearchScreenState
 
 /**
  * Author: lev.novikov

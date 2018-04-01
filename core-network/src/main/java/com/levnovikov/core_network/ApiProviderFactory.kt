@@ -2,6 +2,7 @@ package com.levnovikov.core_network
 
 import com.levnovikov.core_network.api_provider.ApiProvider
 import com.levnovikov.core_network.api_provider.EntityConverter
+import com.levnovikov.core_network.api_provider.ErrorConverter
 
 /**
  * Author: lev.novikov
@@ -11,6 +12,7 @@ import com.levnovikov.core_network.api_provider.EntityConverter
 class ApiProviderFactory(
         private val client: HttpClient,
         private val baseUrl: String,
+        private val errorConverter: ErrorConverter,
         private val converter: EntityConverter) {
 
     fun buildApiProvider(): ApiProvider {
@@ -19,6 +21,7 @@ class ApiProviderFactory(
                 .client(client)
                 //                .contentType() TODO implement
                 .converter(converter)
+                .errorConverter(errorConverter)
                 .build()
     }
 }

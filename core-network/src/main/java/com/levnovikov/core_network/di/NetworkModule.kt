@@ -4,6 +4,7 @@ import com.levnovikov.core_network.ApiProviderFactory
 import com.levnovikov.core_network.HttpClient
 import com.levnovikov.core_network.HttpClientFactory
 import com.levnovikov.core_network.api_provider.EntityConverter
+import com.levnovikov.core_network.api_provider.ErrorConverter
 import com.levnovikov.core_network.transformers.AuthTransformer
 import com.levnovikov.system_image_loader.ImageLoader
 import com.levnovikov.system_image_loader.ImageLoaderFactory
@@ -16,7 +17,8 @@ import java.io.File
 
 class NetworkModule(
         private val cache: File,
-        private val converter: EntityConverter) {
+        private val converter: EntityConverter,
+        private val errorConverter: ErrorConverter) {
 
     private fun getApiKey(): String { //TODO move to app module
         return "3e7cc266ae2b0e0d78e279ce8e361736"
@@ -27,7 +29,7 @@ class NetworkModule(
     }
 
     private fun getApiFactory(): ApiProviderFactory {
-        return ApiProviderFactory(getNetworkClient(), getBaseApiUrl(), converter)
+        return ApiProviderFactory(getNetworkClient(), getBaseApiUrl(), errorConverter, converter)
     }
 
     private fun getHttpClientFactory(): HttpClientFactory {

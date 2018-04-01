@@ -1,16 +1,16 @@
 package com.levnovikov.feature_image_search.di
 
+import com.levnovikov.core_api.api.ImagesApi
+import com.levnovikov.core_api.api.ImagesApiImpl
 import com.levnovikov.core_common.AsyncHelper
 import com.levnovikov.core_network.api_provider.ApiProvider
-import com.levnovikov.feature_image_search.api.ImagesApi
-import com.levnovikov.feature_image_search.api.ImagesApiImpl
-import com.levnovikov.feature_image_search.data.ImageRepoImpl
-import com.levnovikov.feature_image_search.data.ImagesRepo
-import com.levnovikov.feature_image_search.ui.ImageSearchPresenter
-import com.levnovikov.feature_image_search.ui.ImageSearchPresenterImpl
-import com.levnovikov.feature_image_search.ui.SearchActivity
-import com.levnovikov.feature_image_search.ui.SearchScreenState
-import com.levnovikov.feature_image_search.ui.scroll_handler.ScrollHandlerFactory
+import com.levnovikov.data_images.ImageRepoImpl
+import com.levnovikov.data_images.ImagesRepo
+import com.levnovikov.feature_image_search.ImageSearchPresenter
+import com.levnovikov.feature_image_search.ImageSearchPresenterImpl
+import com.levnovikov.feature_image_search.SearchActivity
+import com.levnovikov.feature_image_search.SearchScreenState
+import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactory
 import com.levnovikov.system_image_loader.ImageLoader
 
 /**

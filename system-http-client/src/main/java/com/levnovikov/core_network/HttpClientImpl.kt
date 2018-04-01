@@ -39,7 +39,7 @@ class HttpClientImpl private constructor() : HttpClient {
             }
             return resp
         } catch (e: Exception) {
-            resp.body?.close()
+            resp.body.close()
             throw e
         }
     }

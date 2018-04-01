@@ -1,7 +1,7 @@
 /**
  * app-level
  */
-include ':app'
+include ':app', ':core-api', ':data-images'
 
 /**
  * feature-level

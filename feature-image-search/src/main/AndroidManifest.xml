@@ -3,7 +3,7 @@
     package="com.levnovikov.feature_image_search">
 
     <application>
-        <activity android:name=".ui.SearchActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

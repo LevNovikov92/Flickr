@@ -9,8 +9,7 @@ class Response private constructor() {
 
     var code: Int = 0
         private set
-    var body: ResponseBody? = null
-        private set
+    lateinit var body: ResponseBody
 
     class Builder {
         private val response = Response()

@@ -9,8 +9,10 @@ androidExtensions {
 }
 
 dependencies {
+    implementation project(':data-images')
     implementation project(':core-utils')
     implementation project(':core-network')
+    implementation project(':core-api')
     implementation project(':system-http-client')
     implementation project(':system-image-loader')
 }

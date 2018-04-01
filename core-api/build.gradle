@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android androidConfiguration
+
+dependencies {
+    implementation project(':system-http-client')
+}
+
+dependencies {
+    implementation libs.kotlin
+}
+
+
+dependencies {
+    testImplementation testLibs.jUnit
+    testImplementation testLibs.mockito
+    testImplementation testLibs.mockitoKotlin
+    testImplementation testLibs.mockWebServer
+}
