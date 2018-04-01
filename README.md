@@ -7,4 +7,6 @@
 [Demo video](https://github.com/LevNovikov92/Flickr/blob/master/demo/device-2018-04-01-234448.mp4) 
 (Download to play)
 
+[APK](https://github.com/LevNovikov92/Flickr/blob/master/demo/app-debug.apk)
+
 [Timing](https://github.com/LevNovikov92/Flickr/wiki/Timing) 
