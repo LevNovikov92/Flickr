@@ -1,5 +1,6 @@
 package com.levnovikov.feature_image_search
 
+import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,7 +28,8 @@ class ImagesAdapterImpl constructor(
         private val asyncHelper: AsyncHelper
 ) : RecyclerView.Adapter<ViewHolder>(), ImagesAdapter {
 
-    private val disposables = mutableMapOf<String, Future<*>>()
+    @VisibleForTesting
+    internal val disposables = mutableMapOf<String, Future<*>>()
 
     override fun addItems(items: List<ImageVO>) {
         data.addAll(items)
@@ -39,7 +41,8 @@ class ImagesAdapterImpl constructor(
         notifyDataSetChanged()
     }
 
-    private val data: MutableList<ImageVO> = mutableListOf()
+    @VisibleForTesting
+    internal val data: MutableList<ImageVO> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder =
             ViewHolder(inflater.inflate(R.layout.image_item, parent, false) as ImageView)
@@ -48,7 +51,7 @@ class ImagesAdapterImpl constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.showPlaceHolder()
-        disposables[holder.id]?.apply { Log.d(">>>IMG", "Task canceled") }?.cancel(true)
+        disposables[holder.id]?.cancel(true)
         val task = asyncHelper.doInBackground {
             try {
                 val data = data[position]

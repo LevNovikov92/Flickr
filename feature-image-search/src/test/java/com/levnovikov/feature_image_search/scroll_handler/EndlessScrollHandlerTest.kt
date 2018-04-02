@@ -1,10 +1,10 @@
 package com.levnovikov.feature_image_search.scroll_handler
 
-import com.levnovikov.core_common.AsyncHelper
 import com.levnovikov.data_images.entities.PagerData
 import com.levnovikov.feature_image_search.ImageSearchView
 import com.levnovikov.feature_image_search.ImageVO
 import com.levnovikov.feature_image_search.ImagesAdapter
+import com.levnovikov.feature_image_search.utils.testAsyncHelper
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doNothing
 import com.nhaarman.mockito_kotlin.doReturn
@@ -13,38 +13,12 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import java.util.concurrent.Future
-import java.util.concurrent.TimeUnit
 
 /**
  * Author: lev.novikov
  * Date: 1/4/18.
  */
 class EndlessScrollHandlerTest {
-
-    private val testAsyncHelper = object : AsyncHelper {
-        override fun doInBackground(runnable: () -> Unit): Future<*> {
-            runnable.invoke()
-            return fakeFuture()
-        }
-
-        private fun fakeFuture(): Future<*> = object : Future<Any> {
-            override fun isDone(): Boolean = false
-
-            override fun get(): Any = Any()
-
-            override fun get(p0: Long, p1: TimeUnit?): Any = Any()
-
-            override fun cancel(p0: Boolean): Boolean = true
-
-            override fun isCancelled(): Boolean = false
-        }
-
-        override fun doInMainThread(runnable: () -> Unit) {
-            runnable.invoke()
-        }
-
-    }
 
     @Test
     fun loadNextPage_loadOnePage() {

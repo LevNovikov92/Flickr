@@ -7,14 +7,9 @@ import com.levnovikov.core_network.response.Response;
 import com.levnovikov.core_network.response.ResponseBody;
 import com.levnovikov.core_network.response.ResponseTransformer;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,8 +19,13 @@ import static org.junit.Assert.assertEquals;
  * Created by lev.novikov
  * Date: 27/3/18.
  */
+
+/**
+ * NOTE: This test is calling real api. For debug purpose only. WILL NOT BE USED IN PROD.
+ */
+
 @SuppressWarnings("FieldCanBeLocal")
-public class HttpClientImplTest {
+public class HttpClientImplTestDebug {
 
     private final String baseUrl = "https://api.github.com";
     private final String reposPath = "/users/LevNovikov92/repos";
@@ -35,30 +35,31 @@ public class HttpClientImplTest {
     @Test
     public void makeFlickrCall() throws Exception {
         HttpClient client = new HttpClientImpl.Builder()
-                .callExecutor(request -> {
-                    if (request.getUrl().toString().equals(flickrRequestUrl + "?")) {
-                        Response response = Mockito.mock(Response.class);
-                        Mockito.when(response.getCode()).thenReturn(200);
-                        return response;
-                    } else {
-                        Response response = Mockito.mock(Response.class);
-                        Mockito.when(response.getCode()).thenReturn(404);
-                        return response;
-                    }
-                })
                 .build();
+        Map<String, String> params = new HashMap<>();
+        params.put("method", "flickr.photos.search");
+        params.put("api_key", "fe1d3418135ddd69c31f5630b8c521e3");
+        params.put("text", "kittens");
+        params.put("format", "json");
+        params.put("nojsoncallback", "1");
+        params.put("api_sig", "a587cd42245f85135254d6acdd61ef4e");
         Request request = new Request.Builder()
                 .setUrl(flickrRequestUrl)
                 .setMethod(Request.Method.GET)
+                .setPathParams(params)
                 .build();
         Response response = client.makeCall(request);
 
         assertEquals(200, response.getCode());
 
+        System.out.println(response.getBody().getContentString());
+        printDivider();
+
         request = new Request.Builder().setUrl(flickrRequestUrl + "/wrong_path").build();
         response = client.makeCall(request);
 
         assertEquals(404, response.getCode());
+        System.out.println(response.getBody().getContentString());
     }
 
     @Test
@@ -88,13 +89,6 @@ public class HttpClientImplTest {
         HttpClient client = new HttpClientImpl.Builder()
                 .addTransformer(contentTransformer)
                 .addTransformer(responseCodeTransformer)
-                .callExecutor(request -> {
-                    Response response = Mockito.mock(Response.class);
-                    Mockito.when(response.getCode()).thenReturn(404);
-                    Mockito.when(response.getBody())
-                            .thenReturn(new ResponseBody(new ByteArrayInputStream("asd".getBytes()), "enc", "medType"));
-                    return response;
-                })
                 .build();
 
         Request request = new Request.Builder()
@@ -122,5 +116,13 @@ public class HttpClientImplTest {
                 .build();
         response = client.makeCall(request);
         Assert.assertEquals(500, response.getCode());
+    }
+
+    private void printDivider() {
+        System.out.println();
+        System.out.println();
+        System.out.println("****************************************************************************");
+        System.out.println();
+        System.out.println();
     }
 }

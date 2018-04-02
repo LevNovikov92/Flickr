@@ -10,14 +10,19 @@ import com.levnovikov.system_image_loader.ImageLoader
  * Author: lev.novikov
  * Date: 18/3/18.
  */
-class ScrollHandlerFactory constructor(
+
+interface ScrollHandlerFactory {
+    fun getEndlessScrollHandler(imageVOLoader: ImageVOLoader, pageLoadingListener: PageLoadingListener): ScrollHandler
+}
+
+class ScrollHandlerFactoryImpl constructor(
         private val asyncHelper: AsyncHelper,
         private val imageLoader: ImageLoader,
         private val inflater: LayoutInflater,
         private val view: ImageSearchView
-) {
+) : ScrollHandlerFactory {
 
-    fun getEndlessScrollHandler(
+    override fun getEndlessScrollHandler(
             imageVOLoader: ImageVOLoader,
             pageLoadingListener: PageLoadingListener
     ): ScrollHandler =

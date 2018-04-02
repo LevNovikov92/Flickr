@@ -11,6 +11,7 @@ import com.levnovikov.feature_image_search.ImageSearchPresenterImpl
 import com.levnovikov.feature_image_search.SearchActivity
 import com.levnovikov.feature_image_search.SearchScreenState
 import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactory
+import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactoryImpl
 import com.levnovikov.system_image_loader.ImageLoader
 
 /**
@@ -30,7 +31,7 @@ class ImageSearchModule(
             ImagesApiImpl(apiProvider)
 
     private fun getScrollHandlerFactory(): ScrollHandlerFactory =
-            ScrollHandlerFactory(asyncHelper, imageLoader, activity.layoutInflater, activity)
+            ScrollHandlerFactoryImpl(asyncHelper, imageLoader, activity.layoutInflater, activity)
 
     fun getPresenter(): ImageSearchPresenter =
             ImageSearchPresenterImpl(activity, getImagesRepo(), state, getScrollHandlerFactory())

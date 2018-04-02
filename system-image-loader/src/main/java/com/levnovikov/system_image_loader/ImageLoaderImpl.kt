@@ -6,13 +6,9 @@ import android.util.Log
 import android.util.LruCache
 import com.levnovikov.core_network.HttpClient
 import com.levnovikov.core_network.request.Request
-import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.io.OutputStream
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 
 /**
  * Author: lev.novikov
