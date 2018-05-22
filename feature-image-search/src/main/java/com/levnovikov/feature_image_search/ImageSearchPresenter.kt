@@ -11,6 +11,7 @@ import com.levnovikov.feature_image_search.scroll_handler.ImageVOLoader
 import com.levnovikov.feature_image_search.scroll_handler.PageLoadingListener
 import com.levnovikov.feature_image_search.scroll_handler.ScrollHandler
 import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactory
+import com.levnovikov.system_image_loader.ImageLoader
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -26,6 +27,7 @@ interface ImageSearchPresenter : Active {
 
 class ImageSearchPresenterImpl(
         private val view: ImageSearchView,
+        private val imageLoader: ImageLoader,
         private val imagesRepo: ImagesRepo,
         private val initialState: SearchScreenState?,
         scrollHandlerFactory: ScrollHandlerFactory
@@ -43,7 +45,7 @@ class ImageSearchPresenterImpl(
     }
 
     private val scrollHandler: ScrollHandler
-            = scrollHandlerFactory.getEndlessScrollHandler(this, this)
+            = scrollHandlerFactory.getEndlessScrollHandler(this, this, view)
 
     override fun onGetActive() {
         if (initialState != null && initialState.text.isNotBlank()) {
@@ -63,7 +65,7 @@ class ImageSearchPresenterImpl(
     }
 
     override fun getAdapter(): RecyclerView.Adapter<*> {
-        return scrollHandler.getAdapter() as RecyclerView.Adapter<*>
+        return imageLoader.getAdapter() as RecyclerView.Adapter<*>
     }
 
     override fun onStartLoading() {

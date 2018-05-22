@@ -3,13 +3,14 @@ package com.levnovikov.feature_image_search
 import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
+import com.levnovikov.feature_image_search.scroll_handler.PositionProvider
 import java.util.*
 
 /**
  * Author: lev.novikov
  * Date: 28/3/18.
  */
-interface ImageSearchView {
+interface ImageSearchView : PositionProvider {
     fun getLastVisibleItemPosition(): Int
     fun showProgress()
     fun hideProgress()

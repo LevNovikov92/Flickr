@@ -8,7 +8,6 @@ import com.levnovikov.core_common.AsyncHelper
 import com.levnovikov.data_images.entities.PagerData
 import com.levnovikov.feature_image_search.ImageSearchView
 import com.levnovikov.feature_image_search.ImageVO
-import com.levnovikov.feature_image_search.ImagesAdapter
 
 interface ImageVOLoader {
     fun loadVO(page: Int, text: String): Pair<List<ImageVO>, PagerData>
@@ -21,11 +20,10 @@ interface PageLoadingListener {
 }
 
 class EndlessScrollHandler (
-        private val adapter: ImagesAdapter,
-        private val imageLoader: ImageVOLoader,
+        private val pageLoader: PageLoader,
         private val pageLoadingListener: PageLoadingListener,
-        private val asyncHelper: AsyncHelper,
-        val view: ImageSearchView
+        private val positionProvider: PositionProvider,
+        private val asyncHelper: AsyncHelper
 ) : ScrollHandler {
 
     companion object {
@@ -52,40 +50,40 @@ class EndlessScrollHandler (
         currentPage = 0
         totalPages = 1
         loadingInProgress = false
-        adapter.clearData()
+        pageLoader.clearData()
     }
 
     @MainThread
     @VisibleForTesting
     internal fun loadNextPage() {
         loadingInProgress = true
-        asyncHelper.doInBackground {
-            try {
-                val data = imageLoader.loadVO(++currentPage, text)
-                asyncHelper.doInMainThread {
-                    pageLoadingListener.onLoaded()
-                    adapter.addItems(data.first)
-                    totalPages = data.second.pages
-                    loadingInProgress = false
-                    onScroll() //check conditions and load more data if needed
-                }
-            } catch (e: RequestException) {
-                asyncHelper.doInMainThread {
-                    resetHandlerState()
-                    pageLoadingListener.onError(e)
-                }
-            }
-        }
+        pageLoader.loadNextPage(++currentPage, text,
+                onSuccess = {
+                    asyncHelper.doInMainThread {
+                        pageLoadingListener.onLoaded()
+                        totalPages = it
+                        loadingInProgress = false
+                        onScroll() //check conditions and load more data if needed
+                    }
+                },
+                onError = {
+                    asyncHelper.doInMainThread {
+                        resetHandlerState()
+                        pageLoadingListener.onError(it)
+                    }
+                })
     }
 
     @SuppressLint("VisibleForTests")
     override fun onScroll() {
         if (!loadingInProgress &&
                 currentPage < totalPages &&
-                adapter.itemsCount() - view.getLastVisibleItemPosition() <= MIN_OFFSET) {
+                pageLoader.getItemCount() - positionProvider.getLastVisiblePosition() <= MIN_OFFSET) {
             loadNextPage()
         }
     }
+}
 
-    override fun getAdapter() = adapter
+interface PositionProvider {
+    fun getLastVisiblePosition(): Int
 }

@@ -8,8 +8,11 @@ import com.levnovikov.data_images.ImageRepoImpl
 import com.levnovikov.data_images.ImagesRepo
 import com.levnovikov.feature_image_search.ImageSearchPresenter
 import com.levnovikov.feature_image_search.ImageSearchPresenterImpl
+import com.levnovikov.feature_image_search.ImagesAdapterImpl
 import com.levnovikov.feature_image_search.SearchActivity
 import com.levnovikov.feature_image_search.SearchScreenState
+import com.levnovikov.feature_image_search.scroll_handler.ImageVOLoader
+import com.levnovikov.feature_image_search.scroll_handler.PageLoader
 import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactory
 import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactoryImpl
 import com.levnovikov.system_image_loader.ImageLoader
@@ -30,9 +33,12 @@ class ImageSearchModule(
     private fun getImagesApi(): ImagesApi =
             ImagesApiImpl(apiProvider)
 
-    private fun getScrollHandlerFactory(): ScrollHandlerFactory =
-            ScrollHandlerFactoryImpl(asyncHelper, imageLoader, activity.layoutInflater, activity)
+    private fun getScrollHandlerFactory(imageVOLoader: ImageVOLoader): ScrollHandlerFactory =
+            ScrollHandlerFactoryImpl(getPagerLoader(imageVOLoader), asyncHelper)
+
+    private fun getPagerLoader(imageVOLoader: ImageVOLoader): PageLoader =
+            PageLoader(ImagesAdapterImpl(activity.layoutInflater, imageLoader, asyncHelper), imageVOLoader, asyncHelper)
 
     fun getPresenter(): ImageSearchPresenter =
-            ImageSearchPresenterImpl(activity, getImagesRepo(), state, getScrollHandlerFactory())
+            ImageSearchPresenterImpl(activity, imageLoader, getImagesRepo(), state, getScrollHandlerFactory())
 }

@@ -1,6 +1,7 @@
 package com.levnovikov.system_image_loader
 
 import android.graphics.Bitmap
+import android.widget.Adapter
 
 /**
  * Author: lev.novikov
@@ -10,4 +11,5 @@ import android.graphics.Bitmap
 interface ImageLoader {
 
     fun loadImage(path: String, farm: Int): Bitmap?
+    fun getAdapter(): Adapter
 }

@@ -17,6 +17,9 @@ import com.levnovikov.feature_image_search.di.ImageSearchDependencies
 private const val SEARCH_SCREEN_STATE = "SEARCH_SCREEN_STATE"
 
 class SearchActivity : AppCompatActivity(), ImageSearchView {
+    override fun getLastVisiblePosition(): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private lateinit var presenter: ImageSearchPresenter
 

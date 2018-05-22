@@ -5,5 +5,4 @@ import com.levnovikov.feature_image_search.ImagesAdapter
 interface ScrollHandler {
     fun reloadData(text: String)
     fun onScroll()
-    fun getAdapter(): ImagesAdapter
 }
