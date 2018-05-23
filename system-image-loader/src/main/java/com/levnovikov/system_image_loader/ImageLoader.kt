@@ -11,5 +11,4 @@ import android.widget.Adapter
 interface ImageLoader {
 
     fun loadImage(path: String, farm: Int): Bitmap?
-    fun getAdapter(): Adapter
 }

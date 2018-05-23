@@ -9,7 +9,6 @@ import com.levnovikov.core_common.AsyncHelper
 
 interface ScrollHandlerFactory {
     fun getEndlessScrollHandler(
-            imageVOLoader: ImageVOLoader,
             pageLoadingListener: PageLoadingListener,
             positionProvider: PositionProvider): ScrollHandler
 }
@@ -20,7 +19,6 @@ class ScrollHandlerFactoryImpl (
 ) : ScrollHandlerFactory {
 
     override fun getEndlessScrollHandler(
-            imageVOLoader: ImageVOLoader,
             pageLoadingListener: PageLoadingListener,
             positionProvider: PositionProvider
     ): ScrollHandler =

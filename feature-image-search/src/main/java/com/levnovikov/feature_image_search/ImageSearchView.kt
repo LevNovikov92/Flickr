@@ -11,7 +11,6 @@ import java.util.*
  * Date: 28/3/18.
  */
 interface ImageSearchView : PositionProvider {
-    fun getLastVisibleItemPosition(): Int
     fun showProgress()
     fun hideProgress()
     fun showHintToast()

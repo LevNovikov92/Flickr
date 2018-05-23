@@ -3,15 +3,7 @@ package com.levnovikov.feature_image_search.scroll_handler
 import android.annotation.SuppressLint
 import android.support.annotation.MainThread
 import android.support.annotation.VisibleForTesting
-import com.levnovikov.core_api.api.error.RequestException
 import com.levnovikov.core_common.AsyncHelper
-import com.levnovikov.data_images.entities.PagerData
-import com.levnovikov.feature_image_search.ImageSearchView
-import com.levnovikov.feature_image_search.ImageVO
-
-interface ImageVOLoader {
-    fun loadVO(page: Int, text: String): Pair<List<ImageVO>, PagerData>
-}
 
 interface PageLoadingListener {
     fun onStartLoading()
@@ -78,12 +70,12 @@ class EndlessScrollHandler (
     override fun onScroll() {
         if (!loadingInProgress &&
                 currentPage < totalPages &&
-                pageLoader.getItemCount() - positionProvider.getLastVisiblePosition() <= MIN_OFFSET) {
+                pageLoader.getItemCount() - positionProvider.getLastVisibleItemPosition() <= MIN_OFFSET) {
             loadNextPage()
         }
     }
 }
 
 interface PositionProvider {
-    fun getLastVisiblePosition(): Int
+    fun getLastVisibleItemPosition(): Int
 }

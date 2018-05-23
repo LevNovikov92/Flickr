@@ -20,18 +20,15 @@ import kotlinx.android.parcel.Parcelize
  */
 interface ImageSearchPresenter : Active {
     fun onScrolled()
-    fun getAdapter(): RecyclerView.Adapter<*>
     fun onSearchClick(text: String)
     fun getState(): Parcelable
 }
 
 class ImageSearchPresenterImpl(
         private val view: ImageSearchView,
-        private val imageLoader: ImageLoader,
-        private val imagesRepo: ImagesRepo,
         private val initialState: SearchScreenState?,
         scrollHandlerFactory: ScrollHandlerFactory
-) : ImageSearchPresenter, ImageVOLoader, PageLoadingListener {
+) : ImageSearchPresenter, PageLoadingListener {
 
     private var text: String = initialState?.text ?: ""
 
@@ -45,7 +42,7 @@ class ImageSearchPresenterImpl(
     }
 
     private val scrollHandler: ScrollHandler
-            = scrollHandlerFactory.getEndlessScrollHandler(this, this, view)
+            = scrollHandlerFactory.getEndlessScrollHandler(this, view)
 
     override fun onGetActive() {
         if (initialState != null && initialState.text.isNotBlank()) {
@@ -53,19 +50,8 @@ class ImageSearchPresenterImpl(
         }
     }
 
-    @Throws(RequestException::class)
-    override fun loadVO(page: Int, text: String): Pair<List<ImageVO>, PagerData> {
-        return imagesRepo.getImages(page, text).run {
-            return@run second.map { ImageVO(it.getPath(), it.farm) } to first
-        }
-    }
-
     override fun onScrolled() {
         scrollHandler.onScroll()
-    }
-
-    override fun getAdapter(): RecyclerView.Adapter<*> {
-        return imageLoader.getAdapter() as RecyclerView.Adapter<*>
     }
 
     override fun onStartLoading() {

@@ -1,5 +1,6 @@
 package com.levnovikov.feature_image_search.di
 
+import android.support.v7.widget.RecyclerView
 import com.levnovikov.feature_image_search.ImageSearchPresenter
 import com.levnovikov.feature_image_search.SearchActivity
 import com.levnovikov.feature_image_search.SearchScreenState
@@ -21,4 +22,5 @@ class ImageSearchComponent(
             state)
 
     fun getPresenter(): ImageSearchPresenter = imageSearchModule.getPresenter()
+    fun getAdapter(): RecyclerView.Adapter<*> = imageSearchModule.getAdapter()
 }

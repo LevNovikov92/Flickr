@@ -17,9 +17,6 @@ import com.levnovikov.feature_image_search.di.ImageSearchDependencies
 private const val SEARCH_SCREEN_STATE = "SEARCH_SCREEN_STATE"
 
 class SearchActivity : AppCompatActivity(), ImageSearchView {
-    override fun getLastVisiblePosition(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private lateinit var presenter: ImageSearchPresenter
 
@@ -30,6 +27,7 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
     private lateinit var progress: View
     private lateinit var searchHint: View
     private lateinit var inputManager: InputMethodManager
+    private lateinit var adapter: RecyclerView.Adapter<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +59,7 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
         application?.getComponent<ImageSearchDependencies>()?.let { dependencies ->
             ImageSearchComponent(this, dependencies, state).let {
                 presenter = it.getPresenter()
+                adapter = it.getAdapter()
             }
         }
     }
@@ -73,7 +72,7 @@ class SearchActivity : AppCompatActivity(), ImageSearchView {
                 presenter.onScrolled()
             }
         })
-        recycler.adapter = presenter.getAdapter()
+        recycler.adapter = adapter
 
         findViewById<View>(R.id.search_button)
                 .setOnClickListener {
