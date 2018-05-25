@@ -1,4 +1,4 @@
-package com.levnovikov.feature_image_search.scroll_handler
+package com.levnovikov.feature_image_search.text_search_scroll_handler
 
 import com.levnovikov.core_api.api.error.RequestException
 import com.levnovikov.data_images.ImagesRepo

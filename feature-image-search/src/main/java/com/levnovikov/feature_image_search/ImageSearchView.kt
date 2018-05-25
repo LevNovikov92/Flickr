@@ -3,7 +3,7 @@ package com.levnovikov.feature_image_search
 import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
-import com.levnovikov.feature_image_search.scroll_handler.PositionProvider
+import com.levnovikov.system_endless_scroll.PositionProvider
 import java.util.*
 
 /**

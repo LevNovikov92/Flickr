@@ -1,10 +1,8 @@
-package com.levnovikov.core_common
+package com.levnovikov.system_async_helper
 
 import android.os.Handler
-import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Future
-import java.util.concurrent.ThreadPoolExecutor
 
 /**
  * Author: lev.novikov

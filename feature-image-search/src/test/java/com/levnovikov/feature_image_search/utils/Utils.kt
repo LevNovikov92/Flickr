@@ -1,6 +1,6 @@
 package com.levnovikov.feature_image_search.utils
 
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 

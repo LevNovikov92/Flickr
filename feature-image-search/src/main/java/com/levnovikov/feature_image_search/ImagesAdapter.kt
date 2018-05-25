@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
 import com.levnovikov.system_image_loader.ImageLoader
 import java.io.IOException
 import java.util.concurrent.Future

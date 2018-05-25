@@ -2,8 +2,8 @@ package com.levnovikov.flickr.di
 
 import android.content.Context
 import android.os.Handler
-import com.levnovikov.core_common.AsyncHelper
-import com.levnovikov.core_common.AsyncHelperImpl
+import com.levnovikov.system_async_helper.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelperImpl
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

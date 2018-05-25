@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+
 android androidConfiguration
 
 dependencies {
@@ -7,11 +8,11 @@ dependencies {
 }
 
 dependencies {
+    implementation project(':system-async-helper')
+}
+
+dependencies {
     testImplementation testLibs.jUnit
     testImplementation testLibs.mockito
-    testImplementation testLibs.mockito_inline
     testImplementation testLibs.mockitoKotlin
-}
-repositories {
-    mavenCentral()
 }

@@ -2,7 +2,7 @@ package com.levnovikov.feature_image_search.di
 
 import com.levnovikov.core_api.api.ImagesApi
 import com.levnovikov.core_api.api.ImagesApiImpl
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
 import com.levnovikov.core_network.api_provider.ApiProvider
 import com.levnovikov.data_images.ImageRepoImpl
 import com.levnovikov.data_images.ImagesRepo
@@ -12,11 +12,12 @@ import com.levnovikov.feature_image_search.ImagesAdapter
 import com.levnovikov.feature_image_search.ImagesAdapterImpl
 import com.levnovikov.feature_image_search.SearchActivity
 import com.levnovikov.feature_image_search.SearchScreenState
-import com.levnovikov.feature_image_search.scroll_handler.ImageVOLoader
-import com.levnovikov.feature_image_search.scroll_handler.ImageVOLoaderImpl
-import com.levnovikov.feature_image_search.scroll_handler.PageLoader
-import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactory
-import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactoryImpl
+import com.levnovikov.feature_image_search.text_search_scroll_handler.ImageVOLoader
+import com.levnovikov.feature_image_search.text_search_scroll_handler.ImageVOLoaderImpl
+import com.levnovikov.feature_image_search.text_search_scroll_handler.ScrollHandlerFactory
+import com.levnovikov.feature_image_search.text_search_scroll_handler.ScrollHandlerFactoryImpl
+import com.levnovikov.feature_image_search.text_search_scroll_handler.TextSearchPageLoader
+import com.levnovikov.feature_image_search.text_search_scroll_handler.TextSearchPageLoaderImpl
 import com.levnovikov.system_image_loader.ImageLoader
 
 /**
@@ -38,12 +39,12 @@ class ImageSearchModule(
     private fun getScrollHandlerFactory(imageVOLoader: ImageVOLoader, adapter: ImagesAdapter): ScrollHandlerFactory =
             ScrollHandlerFactoryImpl(getPagerLoader(imageVOLoader, adapter), asyncHelper)
 
-    private fun getPagerLoader(imageVOLoader: ImageVOLoader, adapter: ImagesAdapter): PageLoader =
-            PageLoader(adapter, imageVOLoader, asyncHelper)
+    private fun getPagerLoader(imageVOLoader: ImageVOLoader, adapter: ImagesAdapter): TextSearchPageLoader =
+            TextSearchPageLoaderImpl(adapter, imageVOLoader, asyncHelper)
 
-    //Singleton
     private val adapter = ImagesAdapterImpl(activity.layoutInflater, imageLoader, asyncHelper)
 
+    //Singleton
     fun getAdapter() = adapter
 
     fun getPresenter(): ImageSearchPresenter =
@@ -52,6 +53,7 @@ class ImageSearchModule(
     @Volatile
     private var imageVOLoader: ImageVOLoader? = null
 
+    //Singleton
     private fun provideImageVOLoader(): ImageVOLoader {
         if (imageVOLoader == null) {
             synchronized(this) {

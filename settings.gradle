@@ -3,7 +3,7 @@
  * contains app-scope entities and resolves DI dependencies.
  * Module can have any kind of dependencies since resolving DI.
  */
-include ':app'
+include ':app', ':system-async-helper', ':system-endless-scroll'
 
 /**
  * feature-level

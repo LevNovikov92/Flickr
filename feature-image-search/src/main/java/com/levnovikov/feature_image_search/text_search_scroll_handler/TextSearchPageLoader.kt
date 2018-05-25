@@ -1,31 +1,36 @@
-package com.levnovikov.feature_image_search.scroll_handler
+package com.levnovikov.feature_image_search.text_search_scroll_handler
 
 import com.levnovikov.core_api.api.error.RequestException
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
 import com.levnovikov.feature_image_search.ImagesAdapter
+import com.levnovikov.system_endless_scroll.PageLoader
 
-/**
- * Author: lev.novikov
- * Date: 22/5/18.
- */
+interface TextSearchPageLoader : PageLoader {
+    fun updateSearchText(text: String)
+}
 
-class PageLoader(
+class TextSearchPageLoaderImpl(
         private val adapter: ImagesAdapter,
         private val imageLoader: ImageVOLoader,
         private val asyncHelper: AsyncHelper
-) {
+) : TextSearchPageLoader {
 
-    fun clearData() {
+    private var text: String = ""
+
+    override fun updateSearchText(text: String) {
+        this.text = text
+    }
+
+    override fun clearData() {
         adapter.clearData()
     }
 
-    fun getItemCount(): Int = adapter.itemsCount()
+    override fun getItemCount(): Int = adapter.itemsCount()
 
-    fun loadNextPage(
+    override fun loadNextPage(
             page: Int,
-            text: String,
             onSuccess: (totalPages: Int) -> Unit,
-            onError: (e: RequestException) -> Unit) {
+            onError: (e: Exception) -> Unit) {
         asyncHelper.doInBackground {
             try {
                 val data = imageLoader.loadVO(page, text)

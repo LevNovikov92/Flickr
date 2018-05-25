@@ -14,6 +14,8 @@ dependencies {
     implementation project(':core-api')
     implementation project(':system-http-client')
     implementation project(':system-image-loader')
+    implementation project(':system-endless-scroll')
+    implementation project(':system-async-helper')
 }
 
 dependencies {

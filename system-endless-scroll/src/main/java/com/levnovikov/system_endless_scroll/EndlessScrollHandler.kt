@@ -1,17 +1,9 @@
-package com.levnovikov.feature_image_search.scroll_handler
+package com.levnovikov.system_endless_scroll
 
-import android.annotation.SuppressLint
-import android.support.annotation.MainThread
-import android.support.annotation.VisibleForTesting
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
 
-interface PageLoadingListener {
-    fun onStartLoading()
-    fun onLoaded()
-    fun onError(e: Exception)
-}
 
-class EndlessScrollHandler (
+open class EndlessScrollHandler (
         private val pageLoader: PageLoader,
         private val pageLoadingListener: PageLoadingListener,
         private val positionProvider: PositionProvider,
@@ -22,37 +14,30 @@ class EndlessScrollHandler (
         private const val MIN_OFFSET = 20 //Make offset bigger to make smooth scrolling
     }
 
-    private var currentPage = 0
-    private var totalPages = 1
-    private var loadingInProgress = false //should be modified in mainThread only
+    internal var currentPage = 0
+    internal var totalPages = 1
+    internal var loadingInProgress = false //should be modified in mainThread only
 
-    private var text: String = ""
-
-    @SuppressLint("VisibleForTests")
-    @MainThread
-    override fun reloadData(text: String) {
-        if (text.isEmpty()) return
-        this.text = text
+    override fun reloadData() {
         resetHandlerState()
         pageLoadingListener.onStartLoading()
         loadNextPage()
     }
 
-    private fun resetHandlerState() {
+    internal fun resetHandlerState() {
         currentPage = 0
         totalPages = 1
         loadingInProgress = false
         pageLoader.clearData()
     }
 
-    @MainThread
-    @VisibleForTesting
     internal fun loadNextPage() {
         loadingInProgress = true
-        pageLoader.loadNextPage(++currentPage, text,
+        pageLoader.loadNextPage(currentPage + 1,
                 onSuccess = {
                     asyncHelper.doInMainThread {
                         pageLoadingListener.onLoaded()
+                        currentPage += 1
                         totalPages = it
                         loadingInProgress = false
                         onScroll() //check conditions and load more data if needed
@@ -66,7 +51,6 @@ class EndlessScrollHandler (
                 })
     }
 
-    @SuppressLint("VisibleForTests")
     override fun onScroll() {
         if (!loadingInProgress &&
                 currentPage < totalPages &&
@@ -74,8 +58,4 @@ class EndlessScrollHandler (
             loadNextPage()
         }
     }
-}
-
-interface PositionProvider {
-    fun getLastVisibleItemPosition(): Int
 }

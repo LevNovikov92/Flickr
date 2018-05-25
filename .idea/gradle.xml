@@ -14,6 +14,8 @@
             <option value="$PROJECT_DIR$/core-utils" />
             <option value="$PROJECT_DIR$/data-images" />
             <option value="$PROJECT_DIR$/feature-image-search" />
+            <option value="$PROJECT_DIR$/system-async-helper" />
+            <option value="$PROJECT_DIR$/system-endless-scroll" />
             <option value="$PROJECT_DIR$/system-http-client" />
             <option value="$PROJECT_DIR$/system-image-loader" />
           </set>

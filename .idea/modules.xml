@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Flickr.iml" filepath="$PROJECT_DIR$/.idea/Flickr.iml" />
       <module fileurl="file://$PROJECT_DIR$/Flickr.iml" filepath="$PROJECT_DIR$/Flickr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Flickr.iml" filepath="$PROJECT_DIR$/.idea/Flickr.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/core-api/core-api.iml" filepath="$PROJECT_DIR$/core-api/core-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/core-network/core-network.iml" filepath="$PROJECT_DIR$/core-network/core-network.iml" />
       <module fileurl="file://$PROJECT_DIR$/core-utils/core-utils.iml" filepath="$PROJECT_DIR$/core-utils/core-utils.iml" />
       <module fileurl="file://$PROJECT_DIR$/data-images/data-images.iml" filepath="$PROJECT_DIR$/data-images/data-images.iml" />
       <module fileurl="file://$PROJECT_DIR$/feature-image-search/feature-image-search.iml" filepath="$PROJECT_DIR$/feature-image-search/feature-image-search.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-async-helper/system-async-helper.iml" filepath="$PROJECT_DIR$/system-async-helper/system-async-helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-endless-scroll/system-endless-scroll.iml" filepath="$PROJECT_DIR$/system-endless-scroll/system-endless-scroll.iml" />
       <module fileurl="file://$PROJECT_DIR$/system-http-client/system-http-client.iml" filepath="$PROJECT_DIR$/system-http-client/system-http-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/system-image-loader/system-image-loader.iml" filepath="$PROJECT_DIR$/system-image-loader/system-image-loader.iml" />
     </modules>

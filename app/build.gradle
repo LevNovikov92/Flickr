@@ -6,9 +6,10 @@ dependencies {
     implementation project(":feature-image-search")
     implementation project(":core-network")
     implementation project(":core-api")
+    implementation project(":core-utils")
     implementation project(":system-http-client")
     implementation project(":system-image-loader")
-    implementation project(":core-utils")
+    implementation project(':system-async-helper')
 }
 
 dependencies {

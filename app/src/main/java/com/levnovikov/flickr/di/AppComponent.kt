@@ -3,7 +3,7 @@ package com.levnovikov.flickr.di
 import android.content.Context
 import com.levnovikov.core_api.api.converter.ApiResponseConverter
 import com.levnovikov.core_api.api.converter.ErrorResponseConverter
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
 import com.levnovikov.core_network.di.NetworkModule
 import com.levnovikov.feature_image_search.di.ImageSearchDependencies
 import com.levnovikov.system_image_loader.ImageLoader

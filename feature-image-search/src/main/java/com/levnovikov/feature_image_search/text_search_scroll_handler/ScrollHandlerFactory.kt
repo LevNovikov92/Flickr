@@ -1,6 +1,8 @@
-package com.levnovikov.feature_image_search.scroll_handler
+package com.levnovikov.feature_image_search.text_search_scroll_handler
 
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
+import com.levnovikov.system_endless_scroll.PageLoadingListener
+import com.levnovikov.system_endless_scroll.PositionProvider
 
 /**
  * Author: lev.novikov
@@ -10,19 +12,19 @@ import com.levnovikov.core_common.AsyncHelper
 interface ScrollHandlerFactory {
     fun getEndlessScrollHandler(
             pageLoadingListener: PageLoadingListener,
-            positionProvider: PositionProvider): ScrollHandler
+            positionProvider: PositionProvider): TextSearchScrollHandler
 }
 
 class ScrollHandlerFactoryImpl (
-        private val pageLoader: PageLoader,
+        private val pageLoader: TextSearchPageLoader,
         private val asyncHelper: AsyncHelper
 ) : ScrollHandlerFactory {
 
     override fun getEndlessScrollHandler(
             pageLoadingListener: PageLoadingListener,
             positionProvider: PositionProvider
-    ): ScrollHandler =
-            EndlessScrollHandler(
+    ): TextSearchScrollHandler =
+            TextSearchScrollHandlerImpl(
                     pageLoader,
                     pageLoadingListener,
                     positionProvider,

@@ -1,7 +1,7 @@
 package com.levnovikov.feature_image_search.di
 
 import android.content.Context
-import com.levnovikov.core_common.AsyncHelper
+import com.levnovikov.system_async_helper.AsyncHelper
 import com.levnovikov.core_network.api_provider.ApiProvider
 import com.levnovikov.system_image_loader.ImageLoader
 

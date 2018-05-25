@@ -2,16 +2,10 @@ package com.levnovikov.feature_image_search
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
-import android.support.v7.widget.RecyclerView
-import com.levnovikov.core_api.api.error.RequestException
 import com.levnovikov.core_common.Active
-import com.levnovikov.data_images.ImagesRepo
-import com.levnovikov.data_images.entities.PagerData
-import com.levnovikov.feature_image_search.scroll_handler.ImageVOLoader
-import com.levnovikov.feature_image_search.scroll_handler.PageLoadingListener
-import com.levnovikov.feature_image_search.scroll_handler.ScrollHandler
-import com.levnovikov.feature_image_search.scroll_handler.ScrollHandlerFactory
-import com.levnovikov.system_image_loader.ImageLoader
+import com.levnovikov.system_endless_scroll.PageLoadingListener
+import com.levnovikov.feature_image_search.text_search_scroll_handler.ScrollHandlerFactory
+import com.levnovikov.feature_image_search.text_search_scroll_handler.TextSearchScrollHandler
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -37,15 +31,17 @@ class ImageSearchPresenterImpl(
             view.showHintToast()
         } else {
             this.text = text
+            if (text.isEmpty()) return
             scrollHandler.reloadData(text)
         }
     }
 
-    private val scrollHandler: ScrollHandler
+    private val scrollHandler: TextSearchScrollHandler
             = scrollHandlerFactory.getEndlessScrollHandler(this, view)
 
     override fun onGetActive() {
         if (initialState != null && initialState.text.isNotBlank()) {
+            if (initialState.text.isEmpty()) return
             scrollHandler.reloadData(initialState.text)
         }
     }
